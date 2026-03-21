@@ -6,12 +6,11 @@
     <title>Maria & Pasquale - Il Nostro Matrimonio</title>
     
     <!-- Meta Tag Professionali per Social & WhatsApp -->
-    <meta name="description" content="Siete invitati a celebrare con noi il giorno più bello della nostra vita. 25 Luglio 2026.">
+    <meta name="description" content="Vivi con noi il giorno più bello della nostra vita. 24 Giugno 2026.">
     <meta property="og:title" content="Maria & Pasquale - Il Nostro Matrimonio">
     <meta property="og:description" content="Cerimonia: Chiesa dei Santi Pietro e Paolo - Crucoli (KR).">
     <meta property="og:description" content="Ricevimento: Tenuta del Fallao - Crotone (KR).">
-    <!-- Immagine di anteprima caricata dalla repository -->
-    <meta property="og:image" content="logo.png">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1200">
     <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,18 +26,13 @@
         body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); overflow-x: hidden; scroll-behavior: smooth; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-cursive { font-family: 'Great Vibes', cursive; }
-        
-        /* Immagine di sfondo caricata dalla repository */
         .hero-bg {
             background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                        url('sfondo.jpg'); /* Assicurati che il file si chiami sfondo.jpg */
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=2000');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            /* Fallback nel caso l'immagine non carichi */
-            background-color: #2c3e50;
         }
-
         .nav-link:after {
             content: '';
             display: block;
@@ -57,7 +51,9 @@
     <!-- Navigazione -->
     <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div class="max-w-6xl mx-auto px-4 h-20 flex justify-between items-center">
+            <!-- Logo caricato dalla repository -->
             <a href="#" class="flex items-center">
+                <!-- Sostituisci 'logo.png' con il nome esatto del tuo file (es. logo.jpg, logo.svg) -->
                 <img src="logo.png" alt="Logo Maria e Pasquale" class="h-12 w-auto" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="font-cursive text-3xl text-yellow-700 hidden">M & P</span>
             </a>
@@ -93,35 +89,31 @@
         <div class="mb-6 flex justify-center"><i data-lucide="heart" class="text-yellow-600 fill-yellow-600 w-8 h-8"></i></div>
         <h2 class="font-serif text-4xl mb-8 italic">La Nostra Storia</h2>
         <p class="text-lg leading-relaxed italic text-gray-600">
-            "Dall'incontro casuale in quel caffè di Roma, fino alla proposta sotto le stelle del Cilento. Abbiamo costruito un mondo fatto di risate, viaggi e sogni condivisi. Oggi siamo pronti a scrivere il capitolo più importante della nostra vita insieme."
+            "Dal primo incontro a Roma, fino alla proposta sotto le stelle del Campidoglio. Abbiamo costruito un insieme di ricordi fatto di sorrisi, viaggi e sogni da realizzare. Oggi siamo pronti a scrivere il capitolo più importante della nostra vita insieme."
         </p>
         <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="overflow-hidden rounded-lg shadow-xl">
-                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800" alt="Foto 1" class="hover:scale-105 transition duration-500">
-            </div>
-            <div class="overflow-hidden rounded-lg shadow-xl">
-                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800" alt="Foto 2" class="hover:scale-105 transition duration-500">
-            </div>
+            <div class="overflow-hidden rounded-lg shadow-xl"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800" alt="Foto 1" class="hover:scale-105 transition duration-500"></div>
+            <div class="overflow-hidden rounded-lg shadow-xl"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800" alt="Foto 2" class="hover:scale-105 transition duration-500"></div>
         </div>
     </section>
 
     <!-- Evento -->
     <section id="evento" class="py-24 bg-gray-50 border-y border-gray-100">
         <div class="max-w-6xl mx-auto px-4 text-center">
-            <h2 class="font-serif text-4xl mb-16 italic uppercase tracking-widest">Il Giorno dell'Incontro</h2>
+            <h2 class="font-serif text-4xl mb-16 italic uppercase tracking-widest">25 Luglio 2026</h2>
             <div class="grid md:grid-cols-2 gap-12">
                 <div class="card p-10">
                     <i data-lucide="church" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
                     <h3 class="font-serif text-2xl mb-4 uppercase">La Cerimonia</h3>
-                    <p class="font-bold text-lg mb-2">Ore 11:00</p>
-                    <p class="text-gray-600 mb-6 italic">Basilica di Santa Maria Maggiore<br>Roma</p>
+                    <p class="font-bold text-lg mb-2">Ore 17:00</p>
+                    <p class="text-gray-600 mb-6 italic">Chiesa dei Santi Pietro e Paolo<br>Crucoli (KR)</p>
                     <a href="#" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Mappa</a>
                 </div>
                 <div class="card p-10">
                     <i data-lucide="utensils" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
                     <h3 class="font-serif text-2xl mb-4 uppercase">Il Ricevimento</h3>
-                    <p class="font-bold text-lg mb-2">Ore 13:30</p>
-                    <p class="text-gray-600 mb-6 italic">Villa Aurelia<br>Roma</p>
+                    <p class="font-bold text-lg mb-2">Ore 19:30</p>
+                    <p class="text-gray-600 mb-6 italic">Tenuta del Fallao<br>Crotone (KR)</p>
                     <a href="#" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Mappa</a>
                 </div>
             </div>
@@ -130,8 +122,8 @@
 
     <!-- RSVP -->
     <section id="rsvp" class="py-24 max-w-2xl mx-auto px-4 text-center">
-        <h2 class="font-serif text-4xl mb-4 italic text-center">Sarai dei nostri?</h2>
-        <p class="text-gray-500 uppercase tracking-widest text-sm mb-12">Conferma entro il 30 Maggio 2026</p>
+        <h2 class="font-serif text-4xl mb-4 italic text-center">Ti unirai alla festa?</h2>
+        <p class="text-gray-500 uppercase tracking-widest text-sm mb-12">Conferma la tua presenza entro il 10 Luglio 2026</p>
         <form id="rsvp-form" class="card p-8 space-y-6 text-left">
             <div>
                 <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Nome e Cognome</label>
@@ -141,8 +133,8 @@
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Parteciperai?</label>
                     <select name="presenza" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
-                        <option value="si">Sì, con piacere</option>
-                        <option value="no">No, purtroppo</option>
+                        <option value="si">Sì</option>
+                        <option value="no">No</option>
                     </select>
                 </div>
                 <div>
@@ -186,9 +178,7 @@
         const mobileMenu = document.getElementById('mobile-menu');
         menuBtn.onclick = () => mobileMenu.classList.toggle('hidden');
 
-        // Nuova data aggiornata: 25 Luglio 2026
-        const weddingDate = new Date("July 25, 2026 11:00:00").getTime();
-        
+        const weddingDate = new Date("June 24, 2026 11:00:00").getTime();
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = weddingDate - now;
@@ -214,6 +204,7 @@
         function copyIBAN() {
             const iban = document.getElementById('iban').innerText;
             navigator.clipboard.writeText(iban);
+            // Uso una notifica meno invasiva di alert
             const btn = event.target;
             btn.innerText = "COPIATO!";
             setTimeout(() => btn.innerText = "COPIA IBAN", 2000);
