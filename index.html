@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria & Pasquale - Il Nostro Matrimonio</title>
+    
+    <!-- Meta Tag Professionali per Social & WhatsApp -->
+    <meta name="description" content="Siete invitati a celebrare con noi il giorno più bello della nostra vita. 24 Giugno 2026.">
+    <meta property="og:title" content="Maria & Pasquale - Il Nostro Matrimonio">
+    <meta property="og:description" content="Tutti i dettagli sul nostro matrimonio: cerimonia, ricevimento e RSVP.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=1200">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #d4af37; /* Gold */
+            --secondary: #fdfbf7; /* Off-white */
+            --text: #2c3e50;
+        }
+        body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); overflow-x: hidden; scroll-behavior: smooth; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .nav-link:after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width .3s;
+        }
+        .nav-link:hover:after { width: 100%; }
+        .card { background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigazione -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex justify-between items-center">
+            <a href="#" class="font-cursive text-3xl text-yellow-700">M & P</a>
+            <div class="hidden md:flex space-x-8 uppercase tracking-widest text-xs font-bold">
+                <a href="#storia" class="nav-link">La Storia</a>
+                <a href="#evento" class="nav-link">L'Evento</a>
+                <a href="#rsvp" class="nav-link">RSVP</a>
+                <a href="#regalo" class="nav-link">Regalo</a>
+            </div>
+            <button class="md:hidden" id="menu-btn"><i data-lucide="menu"></i></button>
+        </div>
+        <!-- Menu Mobile (Semplificato) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 p-4 space-y-4 text-center font-bold text-xs uppercase tracking-widest">
+            <a href="#storia" class="block py-2">La Storia</a>
+            <a href="#evento" class="block py-2">L'Evento</a>
+            <a href="#rsvp" class="block py-2">RSVP</a>
+            <a href="#regalo" class="block py-2">Regalo</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg h-screen flex items-center justify-center text-center text-white px-4">
+        <div class="animate__animated animate__fadeIn">
+            <h2 class="font-serif italic text-xl md:text-2xl mb-4 tracking-[0.3em] uppercase">Ci Sposiamo</h2>
+            <h1 class="font-cursive text-7xl md:text-9xl mb-6">Maria & Pasquale</h1>
+            <p class="font-serif text-2xl md:text-3xl mb-12 tracking-widest">24 GIUGNO 2026</p>
+            <div id="countdown" class="flex justify-center space-x-4 md:space-x-8 text-sm md:text-base font-bold">
+                <!-- Il countdown verrà inserito qui dallo script -->
+            </div>
+        </div>
+    </section>
+
+    <!-- La Nostra Storia -->
+    <section id="storia" class="py-24 max-w-4xl mx-auto px-4 text-center">
+        <div class="mb-6 flex justify-center">
+            <i data-lucide="heart" class="text-yellow-600 fill-yellow-600 w-8 h-8"></i>
+        </div>
+        <h2 class="font-serif text-4xl mb-8 italic">La Nostra Storia</h2>
+        <p class="text-lg leading-relaxed italic text-gray-600">
+            "Dall'incontro casuale in quel caffè di Roma, fino alla proposta sotto le stelle del Cilento. 
+            Abbiamo costruito un mondo fatto di risate, viaggi e sogni condivisi. 
+            Oggi siamo pronti a scrivere il capitolo più importante della nostra vita insieme."
+        </p>
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="overflow-hidden rounded-lg shadow-xl">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800" alt="Il nostro primo viaggio" class="hover:scale-105 transition duration-500">
+            </div>
+            <div class="overflow-hidden rounded-lg shadow-xl">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800" alt="La proposta" class="hover:scale-105 transition duration-500">
+            </div>
+        </div>
+    </section>
+
+    <!-- Dettagli Evento -->
+    <section id="evento" class="py-24 bg-gray-50 border-y border-gray-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="font-serif text-4xl text-center mb-16 italic uppercase tracking-widest">Il Giorno dell'Incontro</h2>
+            <div class="grid md:grid-cols-2 gap-12 text-center">
+                <!-- Cerimonia -->
+                <div class="card p-10">
+                    <i data-lucide="church" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
+                    <h3 class="font-serif text-2xl mb-4 uppercase tracking-wider">La Cerimonia</h3>
+                    <p class="font-bold text-lg mb-2">Ore 11:00</p>
+                    <p class="text-gray-600 mb-6 italic">Basilica di Santa Maria Maggiore<br>Piazza di S. Maria Maggiore, Roma</p>
+                    <a href="https://maps.google.com" target="_blank" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Apri Mappa</a>
+                </div>
+                <!-- Ricevimento -->
+                <div class="card p-10">
+                    <i data-lucide="utensils" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
+                    <h3 class="font-serif text-2xl mb-4 uppercase tracking-wider">Il Ricevimento</h3>
+                    <p class="font-bold text-lg mb-2">Ore 13:30</p>
+                    <p class="text-gray-600 mb-6 italic">Villa Aurelia<br>Largo di Porta S. Pancrazio, Roma</p>
+                    <a href="https://maps.google.com" target="_blank" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Apri Mappa</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="rsvp" class="py-24 max-w-2xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="font-serif text-4xl mb-4 italic">Sarai dei nostri?</h2>
+            <p class="text-gray-500 uppercase tracking-widest text-sm">Si prega di confermare entro il 30 Maggio 2026</p>
+        </div>
+        <form id="rsvp-form" class="card p-8 space-y-6">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Nome e Cognome</label>
+                <input type="text" name="nome" required class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Parteciperai?</label>
+                    <select name="presenza" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                        <option value="si">Sì, con piacere</option>
+                        <option value="no">No, purtroppo non posso</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Ospiti Aggiuntivi</label>
+                    <input type="number" name="ospiti" min="0" value="0" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Intolleranze Alimentari</label>
+                <textarea name="note" rows="3" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition" placeholder="Es. Celiachia, Allergia a..."></textarea>
+            </div>
+            <button type="submit" class="w-full bg-yellow-700 text-white py-4 rounded-lg uppercase font-bold tracking-[0.2em] hover:bg-yellow-800 transition shadow-lg">Invia Conferma</button>
+        </form>
+    </section>
+
+    <!-- Lista Regalo / IBAN -->
+    <section id="regalo" class="py-24 bg-white text-center">
+        <div class="max-w-xl mx-auto px-4">
+            <i data-lucide="plane" class="mx-auto mb-6 text-yellow-600 w-10 h-10"></i>
+            <h2 class="font-serif text-4xl mb-6 italic">Il Nostro Viaggio</h2>
+            <p class="text-gray-600 italic mb-8 text-lg leading-relaxed">
+                Il regalo più grande sarà la vostra presenza. Se però desiderate contribuire alla nostra Luna di Miele in Giappone, questo è il nostro sogno:
+            </p>
+            <div class="bg-yellow-50 p-8 border border-yellow-200 rounded-xl">
+                <p class="text-xs font-bold uppercase tracking-[0.2em] mb-2 text-yellow-800">Coordinate IBAN</p>
+                <p class="text-xl font-mono tracking-tighter text-gray-800 mb-4" id="iban">IT 12 X 00000 00000 000012345678</p>
+                <button onclick="copyIBAN()" class="bg-white border border-yellow-600 text-yellow-700 px-4 py-2 rounded-full text-xs font-bold hover:bg-yellow-600 hover:text-white transition">
+                    COPIA IBAN
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-100 text-center">
+        <h2 class="font-cursive text-4xl mb-4 text-yellow-700">Maria & Pasquale</h2>
+        <p class="text-xs uppercase tracking-[0.4em] text-gray-400 font-bold italic">24 . 06 . 2026</p>
+        <p class="text-[10px] uppercase tracking-widest text-gray-300 mt-8">Grazie di cuore per essere parte della nostra vita</p>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="modal" class="fixed inset-0 bg-black/60 hidden z-[100] items-center justify-center px-4 backdrop-blur-sm">
+        <div class="bg-white p-10 rounded-2xl text-center max-w-sm shadow-2xl animate__animated animate__zoomIn">
+            <i data-lucide="check-circle" class="mx-auto text-green-500 w-16 h-16 mb-4"></i>
+            <h3 class="text-2xl font-serif mb-2">Grazie di cuore!</h3>
+            <p class="text-gray-600 mb-6 italic">Il tuo messaggio è stato ricevuto. Non vediamo l'ora di vederti!</p>
+            <button onclick="closeModal()" class="bg-yellow-700 text-white px-8 py-3 rounded-full uppercase text-xs font-bold tracking-widest">Chiudi</button>
+        </div>
+    </div>
+
+    <script>
+        // Inizializza Icone Lucide
+        lucide.createIcons();
+
+        // Menu Mobile Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Countdown Logic
+        const weddingDate = new Date("June 24, 2026 11:00:00").getTime();
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `
+                <div class="flex flex-col"><span class="text-4xl md:text-5xl font-serif text-yellow-700">${days}</span><span class="text-[10px] tracking-widest">GIORNI</span></div>
+                <div class="flex flex-col"><span class="text-4xl md:text-5xl font-serif text-yellow-700">${hours}</span><span class="text-[10px] tracking-widest">ORE</span></div>
+                <div class="flex flex-col"><span class="text-4xl md:text-5xl font-serif text-yellow-700">${mins}</span><span class="text-[10px] tracking-widest">MINUTI</span></div>
+                <div class="flex flex-col"><span class="text-4xl md:text-5xl font-serif text-yellow-700">${secs}</span><span class="text-[10px] tracking-widest">SECONDI</span></div>
+            `;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // RSVP Form Handling
+        document.getElementById('rsvp-form').onsubmit = (e) => {
+            e.preventDefault();
+            // Qui puoi collegare Formspree se desideri ricevere email reali
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal').classList.add('flex');
+        };
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        function copyIBAN() {
+            const iban = document.getElementById('iban').innerText;
+            const el = document.createElement('textarea');
+            el.value = iban;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            // Messaggio di conferma temporaneo
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "COPIATO!";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        }
+    </script>
+</body>
+</html>
