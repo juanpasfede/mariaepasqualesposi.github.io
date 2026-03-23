@@ -22,6 +22,10 @@
             --text: #2c3e50;
         }
         body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); overflow-x: hidden; scroll-behavior: smooth; }
+        
+        /* Classe per bloccare lo scorrimento durante il caricamento */
+        .no-scroll { overflow: hidden !important; }
+
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-cursive { font-family: 'Great Vibes', cursive; }
         
@@ -47,13 +51,307 @@
         .card { background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
         .card:hover { transform: translateY(-5px); }
 
-        /* Stile Polaroid per le foto */
         .polaroid {
             background: white;
             padding: 12px 12px 40px 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* Classi per l'animazione allo scorrimento */
         .scroll-hidden {
-            opacity:
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .scroll-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="no-scroll">
+
+    <div id="preloader" class="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center transition-opacity duration-1000">
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=400" alt="Maria e Pasquale" class="w-40 h-40 object-cover rounded-full shadow-xl mb-6 border-4 border-yellow-50 animate-pulse">
+        
+        <div class="font-serif text-yellow-700 text-2xl mb-4 italic" id="loading-text">0%</div>
+        
+        <div class="w-64 h-1 bg-gray-200 rounded-full relative">
+            <div id="progress-fill" class="h-full bg-yellow-700 rounded-full w-0 transition-all duration-100 ease-linear"></div>
+            <i data-lucide="heart" id="loading-heart" class="absolute top-1/2 -translate-y-1/2 -ml-3 text-yellow-600 fill-yellow-600 w-6 h-6 transition-all duration-100 ease-linear" style="left: 0%;"></i>
+        </div>
+        <p class="text-[10px] uppercase tracking-widest text-gray-400 mt-6 font-bold">Stiamo preparando la magia...</p>
+    </div>
+
+    <nav class="fixed w-full z-50 bg-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex justify-between items-center relative z-20 bg-white">
+            <a href="#" class="flex items-center">
+                <img src="logo.png" alt="Logo Maria e Pasquale" class="h-12 w-auto" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span class="font-cursive text-3xl text-yellow-700 hidden">M & P</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8 uppercase tracking-widest text-xs font-bold">
+                <a href="#storia" class="nav-link">La Storia</a>
+                <a href="#evento" class="nav-link">L'Evento</a>
+                <a href="#rsvp" class="nav-link">RSVP</a>
+                <a href="#regalo" class="nav-link">Regalo</a>
+            </div>
+            
+            <button class="md:hidden relative z-20 text-gray-800 p-2" id="menu-btn">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="absolute top-20 left-0 w-full bg-white border-t border-gray-100 shadow-2xl flex flex-col py-4 text-center text-sm font-bold uppercase tracking-widest transition-all duration-300 ease-in-out transform -translate-y-[150%] opacity-0 -z-10">
+            <a href="#storia" class="mobile-link block py-4 text-gray-800 hover:text-yellow-700 hover:bg-gray-50 transition">La Storia</a>
+            <a href="#evento" class="mobile-link block py-4 text-gray-800 hover:text-yellow-700 hover:bg-gray-50 transition">L'Evento</a>
+            <a href="#rsvp" class="mobile-link block py-4 text-gray-800 hover:text-yellow-700 hover:bg-gray-50 transition">RSVP</a>
+            <a href="#regalo" class="mobile-link block py-4 text-gray-800 hover:text-yellow-700 hover:bg-gray-50 transition">Regalo</a>
+        </div>
+    </nav>
+
+    <section class="hero-bg h-screen flex items-center justify-center text-center text-white px-4">
+        <div class="animate__animated animate__fadeIn">
+            <h2 class="font-serif italic text-xl md:text-2xl mb-4 tracking-[0.3em] uppercase">Ci Sposiamo</h2>
+            <h1 class="font-cursive text-7xl md:text-9xl mb-6">Maria & Pasquale</h1>
+            <p class="font-serif text-2xl md:text-3xl mb-12 tracking-widest">25 LUGLIO 2026</p>
+            <div id="countdown" class="flex justify-center space-x-4 md:space-x-8 text-sm md:text-base font-bold"></div>
+        </div>
+    </section>
+
+    <section id="storia" class="py-24 max-w-5xl mx-auto px-4 text-center">
+        <div class="mb-6 flex justify-center scroll-hidden"><i data-lucide="heart" class="text-yellow-600 fill-yellow-600 w-8 h-8"></i></div>
+        <h2 class="font-serif text-4xl mb-8 italic scroll-hidden">La Nostra Storia</h2>
+        <p class="text-lg leading-relaxed italic text-gray-600 max-w-3xl mx-auto scroll-hidden">
+            "Dal primo incontro a Roma, fino alla proposta sotto le stelle del Campidoglio. Abbiamo costruito un insieme di ricordi fatto di sorrisi, viaggi e sogni da realizzare. Oggi siamo pronti a scrivere il capitolo più importante della nostra vita insieme."
+        </p>
+        
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8 px-4">
+            <div class="polaroid transform -rotate-3 hover:rotate-0 transition duration-500 scroll-hidden">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800" alt="Foto 1" class="w-full h-auto object-cover">
+            </div>
+            <div class="polaroid transform rotate-3 md:translate-y-12 hover:rotate-0 transition duration-500 scroll-hidden">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=800" alt="Foto 2" class="w-full h-auto object-cover">
+            </div>
+        </div>
+    </section>
+
+    <section id="evento" class="py-24 mt-12 bg-gray-50 border-y border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h2 class="font-serif text-4xl mb-16 italic uppercase tracking-widest scroll-hidden">25 Luglio 2026</h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="card p-10 scroll-hidden">
+                    <i data-lucide="church" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
+                    <h3 class="font-serif text-2xl mb-4 uppercase">La Cerimonia</h3>
+                    <p class="font-bold text-lg mb-2">Ore 17:00</p>
+                    <p class="text-gray-600 mb-6 italic">Chiesa dei Santi Pietro e Paolo<br>Crucoli (KR)</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Chiesa+dei+Santi+Pietro+e+Paolo+Crucoli" target="_blank" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Mappa</a>
+                </div>
+                <div class="card p-10 scroll-hidden" style="transition-delay: 0.2s;">
+                    <i data-lucide="utensils" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
+                    <h3 class="font-serif text-2xl mb-4 uppercase">Il Ricevimento</h3>
+                    <p class="font-bold text-lg mb-2">Ore 19:30</p>
+                    <p class="text-gray-600 mb-6 italic">Tenuta del Fallao<br>Crotone (KR)</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Tenuta+del+Fallao+Crotone" target="_blank" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Mappa</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rsvp" class="py-24 max-w-2xl mx-auto px-4 text-center scroll-hidden">
+        <h2 class="font-serif text-4xl mb-4 italic text-center">Ti unirai alla festa?</h2>
+        <p class="text-gray-500 uppercase tracking-widest text-sm mb-12">Conferma la tua presenza entro il 10 Luglio 2026</p>
+        
+        <form action="https://formspree.io/f/xzdjqrbv" method="POST" id="rsvp-form" class="card p-8 space-y-6 text-left">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Nome e Cognome</label>
+                <input type="text" name="Nominativo" required class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Parteciperai?</label>
+                    <select name="Partecipazione" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                        <option value="Sì, con piacere">Sì</option>
+                        <option value="No, a malincuore">No</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Numero Ospiti</label>
+                    <input type="number" name="Numero_Ospiti" min="1" value="1" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Note (Allergie, canzoni preferite...)</label>
+                <textarea name="Messaggio" rows="2" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-yellow-700 text-white py-4 rounded-lg uppercase font-bold tracking-widest hover:bg-yellow-800 transition shadow-lg">Invia Conferma</button>
+        </form>
+    </section>
+
+    <section id="regalo" class="py-24 bg-white text-center px-4 scroll-hidden">
+        <i data-lucide="plane" class="mx-auto mb-6 text-yellow-600 w-10 h-10"></i>
+        <h2 class="font-serif text-4xl mb-6 italic">Il Nostro Viaggio</h2>
+        <p class="text-gray-600 italic mb-8 max-w-xl mx-auto">Se desiderate contribuire alla nostra Luna di Miele in Giappone:</p>
+        <div class="bg-yellow-50 p-6 border border-yellow-200 rounded-xl inline-block">
+            <p class="text-[10px] font-bold uppercase mb-1">IBAN</p>
+            <p class="font-mono text-gray-800 mb-4" id="iban">IT 12 X 00000 00000 000012345678</p>
+            <button onclick="copyIBAN(event)" class="text-yellow-700 text-xs font-bold uppercase border-b border-yellow-700">Copia IBAN</button>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center border-t border-gray-100">
+        <h2 class="font-cursive text-4xl text-yellow-700 mb-2">Maria & Pasquale</h2>
+        <p class="text-xs uppercase tracking-[0.4em] text-gray-400 font-bold">25 . 07 . 2026</p>
+    </footer>
+
+    <div id="modal" class="fixed inset-0 bg-black/60 hidden z-[100] items-center justify-center px-4 backdrop-blur-sm">
+        <div class="bg-white p-10 rounded-2xl text-center max-w-sm shadow-2xl animate__animated animate__zoomIn">
+            <i data-lucide="check-circle" class="mx-auto text-green-500 w-16 h-16 mb-4"></i>
+            <h3 class="text-2xl font-serif mb-2">Grazie!</h3>
+            <p class="text-gray-600 mb-6 italic">La vostra risposta è stata inviata correttamente. Non vediamo l'ora di festeggiare con voi!</p>
+            <button onclick="closeModal()" class="bg-yellow-700 text-white px-8 py-3 rounded-full uppercase text-xs font-bold tracking-widest">Chiudi</button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        // Logica per il Preloader (Novità!)
+        document.addEventListener('DOMContentLoaded', () => {
+            let progress = 0;
+            const progressFill = document.getElementById('progress-fill');
+            const loadingText = document.getElementById('loading-text');
+            const loadingHeart = document.getElementById('loading-heart');
+            const preloader = document.getElementById('preloader');
+
+            // Simula un caricamento che dura circa 2-3 secondi
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 8) + 2; // Incremento casuale tra 2 e 9
+                
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    // Al termine, attendi un attimo e fai scomparire il preloader
+                    setTimeout(() => {
+                        preloader.classList.add('opacity-0');
+                        setTimeout(() => {
+                            preloader.classList.add('hidden');
+                            document.body.classList.remove('no-scroll'); // Sblocca lo scorrimento
+                        }, 1000); // Tempo di durata dell'animazione CSS
+                    }, 400); 
+                }
+                
+                // Aggiorna l'interfaccia
+                progressFill.style.width = progress + '%';
+                loadingHeart.style.left = progress + '%';
+                loadingText.innerText = progress + '%';
+                
+            }, 100); // Velocità di aggiornamento
+        });
+        
+        // Menu Mobile Toggle a cascata
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const menuIcon = menuBtn.querySelector('i');
+
+        function toggleMenu() {
+            const isClosed = mobileMenu.classList.contains('opacity-0');
+            if (isClosed) {
+                mobileMenu.classList.remove('-translate-y-[150%]', 'opacity-0', '-z-10');
+                mobileMenu.classList.add('translate-y-0', 'opacity-100', 'z-10');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                mobileMenu.classList.add('-translate-y-[150%]', 'opacity-0', '-z-10');
+                mobileMenu.classList.remove('translate-y-0', 'opacity-100', 'z-10');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons(); 
+        }
+
+        menuBtn.onclick = toggleMenu;
+        mobileLinks.forEach(link => link.onclick = toggleMenu);
+
+        // Countdown
+        const weddingDate = new Date("July 25, 2026 17:00:00").getTime();
+        const countdownEl = document.getElementById("countdown");
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            if (diff > 0) {
+                countdownEl.innerHTML = `
+                    <div class="flex flex-col"><span class="text-4xl text-yellow-700 font-serif">${days}</span><span class="text-[10px]">GIORNI</span></div>
+                    <div class="flex flex-col"><span class="text-4xl text-yellow-700 font-serif">${hours}</span><span class="text-[10px]">ORE</span></div>
+                    <div class="flex flex-col"><span class="text-4xl text-yellow-700 font-serif">${mins}</span><span class="text-[10px]">MINUTI</span></div>
+                    <div class="flex flex-col"><span class="text-4xl text-yellow-700 font-serif">${secs}</span><span class="text-[10px]">SECONDI</span></div>
+                `;
+            } else {
+                countdownEl.innerHTML = `<span class="text-2xl font-serif text-yellow-700 uppercase tracking-widest italic">Oggi è il gran giorno!</span>`;
+            }
+        }
+        
+        if(countdownEl) {
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
+
+        // Scroll Animations
+        const observerOptions = { threshold: 0.2 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('scroll-visible');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-hidden').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Gestione modulo Formspree
+        const rsvpForm = document.getElementById('rsvp-form');
+        if(rsvpForm) {
+            rsvpForm.onsubmit = async (e) => {
+                e.preventDefault();
+                const data = new FormData(rsvpForm);
+                
+                try {
+                    const response = await fetch(rsvpForm.action, {
+                        method: 'POST',
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    
+                    if (response.ok) {
+                        document.getElementById('modal').classList.replace('hidden', 'flex');
+                        rsvpForm.reset();
+                    } else {
+                        alert("Si è verificato un errore. Assicurati di aver configurato l'ID Formspree correttamente.");
+                    }
+                } catch (error) {
+                    alert("Errore di connessione. Riprova più tardi.");
+                }
+            };
+        }
+
+        function closeModal() { document.getElementById('modal').classList.replace('flex', 'hidden'); }
+        
+        function copyIBAN(event) {
+            const iban = document.getElementById('iban').innerText;
+            navigator.clipboard.writeText(iban);
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "COPIATO!";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        }
+    </script>
+</body>
+</html>
