@@ -29,6 +29,7 @@
             --primary: #d4af37;
             --secondary: #fdfbf7;
             --text: #2c3e50;
+            --orange: #FF6347; /* Definizione del colore arancione vivace */
         }
         body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); overflow-x: hidden; scroll-behavior: smooth; }
         
@@ -37,14 +38,13 @@
 
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-cursive { font-family: 'Great Vibes', cursive; }
+        .text-orange { color: var(--orange); } /* Classe CSS per il colore arancione */
         
         .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                        url('sfondo.jpg');
+            background: white; /* Sfondo solido bianco per l'Hero */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            background-color: #2c3e50;
         }
         
         .nav-link:after {
@@ -118,21 +118,21 @@
         </div>
     </nav>
 
-    <section class="hero-bg h-screen flex items-center justify-center text-center text-white px-4">
+    <section class="hero-bg h-screen flex items-center justify-center text-center px-4">
         <div class="animate__animated animate__fadeIn flex flex-col items-center">
-            <h2 class="font-serif italic text-xl md:text-2xl mb-6 tracking-[0.3em] uppercase">Ci Sposiamo</h2>
+            <h2 class="text-orange font-serif italic text-xl md:text-2xl mb-6 tracking-[0.3em] uppercase">Ci Sposiamo</h2>
             
             <div class="block mb-8 text-center">
-                <h1 class="font-cursive text-7xl md:text-9xl mb-2">Maria e Pasquale</h1>
+                <h1 class="text-orange font-cursive text-7xl md:text-9xl mb-2">Maria e Pasquale</h1>
                 
                 <div class="flex items-end justify-center">
                     <img src="sunflower-s.png" alt="S" class="h-16 md:h-24 w-auto -mr-2 md:-mr-3" onerror="console.error('File sunflower-s.png non trovato!');">
-                    <span class="font-cursive text-7xl md:text-9xl tracking-tight">posi</span>
+                    <span class="text-orange font-cursive text-7xl md:text-9xl tracking-tight">posi</span>
                 </div>
             </div>
 
-            <p class="font-serif text-2xl md:text-3xl mb-12 tracking-widest">25 LUGLIO 2026</p>
-            <div id="countdown" class="flex justify-center space-x-4 md:space-x-8 text-sm md:text-base font-bold"></div>
+            <p class="text-orange font-serif text-2xl md:text-3xl mb-12 tracking-widest">25 LUGLIO 2026</p>
+            <div id="countdown" class="text-orange flex justify-center space-x-4 md:space-x-8 text-sm md:text-base font-bold"></div>
         </div>
     </section>
 
@@ -233,7 +233,7 @@
     <script>
         lucide.createIcons();
         
-        // Logica per il Preloader (Novità!)
+        // Logica per il Preloader
         document.addEventListener('DOMContentLoaded', () => {
             let progress = 0;
             const progressFill = document.getElementById('progress-fill');
@@ -241,30 +241,27 @@
             const loadingHeart = document.getElementById('loading-heart');
             const preloader = document.getElementById('preloader');
 
-            // Simula un caricamento che dura circa 2-3 secondi
             const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 8) + 2; // Incremento casuale tra 2 e 9
+                progress += Math.floor(Math.random() * 8) + 2; 
                 
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(interval);
                     
-                    // Al termine, attendi un attimo e fai scomparire il preloader
                     setTimeout(() => {
                         preloader.classList.add('opacity-0');
                         setTimeout(() => {
                             preloader.classList.add('hidden');
-                            document.body.classList.remove('no-scroll'); // Sblocca lo scorrimento
-                        }, 1000); // Tempo di durata dell'animazione CSS
+                            document.body.classList.remove('no-scroll'); 
+                        }, 1000); 
                     }, 400); 
                 }
                 
-                // Aggiorna l'interfaccia
                 progressFill.style.width = progress + '%';
                 loadingHeart.style.left = progress + '%';
                 loadingText.innerText = progress + '%';
                 
-            }, 100); // Velocità di aggiornamento
+            }, 100); 
         });
         
         // Menu Mobile Toggle a cascata
@@ -276,17 +273,15 @@
         function toggleMenu() {
             const isClosed = mobileMenu.classList.contains('opacity-0');
             if (isClosed) {
-                // Apre il menu
                 mobileMenu.classList.remove('-translate-y-[150%]', 'opacity-0', '-z-10');
                 mobileMenu.classList.add('translate-y-0', 'opacity-100', 'z-10');
                 menuIcon.setAttribute('data-lucide', 'x');
             } else {
-                // Chiude il menu
                 mobileMenu.classList.add('-translate-y-[150%]', 'opacity-0', '-z-10');
                 mobileMenu.classList.remove('translate-y-0', 'opacity-100', 'z-10');
                 menuIcon.setAttribute('data-lucide', 'menu');
             }
-            lucide.createIcons(); // Aggiorna l'icona (da menu a X)
+            lucide.createIcons(); 
         }
 
         menuBtn.onclick = toggleMenu;
@@ -306,13 +301,13 @@
             
             if (diff > 0) {
                 countdownEl.innerHTML = `
-                    <div class="flex flex-col"><span class="text-4xl text-yellow-700 font-serif">${days}</span><span class="text-[10px]">GIORNI</span></div>
-                    <div class="flex flex-col"><span class="text-4xl text-yellow-700 font-serif">${hours}</span><span class="text-[10px]">ORE</span></div>
-                    <div class="flex flex-col"><span class="text-4xl text-yellow-700 font-serif">${mins}</span><span class="text-[10px]">MINUTI</span></div>
-                    <div class="flex flex-col"><span class="text-4xl text-yellow-700 font-serif">${secs}</span><span class="text-[10px]">SECONDI</span></div>
+                    <div class="flex flex-col"><span class="text-4xl font-serif">${days}</span><span class="text-[10px]">GIORNI</span></div>
+                    <div class="flex flex-col"><span class="text-4xl font-serif">${hours}</span><span class="text-[10px]">ORE</span></div>
+                    <div class="flex flex-col"><span class="text-4xl font-serif">${mins}</span><span class="text-[10px]">MINUTI</span></div>
+                    <div class="flex flex-col"><span class="text-4xl font-serif">${secs}</span><span class="text-[10px]">SECONDI</span></div>
                 `;
             } else {
-                countdownEl.innerHTML = `<span class="text-2xl font-serif text-yellow-700 uppercase tracking-widest italic">Oggi è il gran giorno!</span>`;
+                countdownEl.innerHTML = `<span class="text-2xl font-serif uppercase tracking-widest italic">Oggi è il gran giorno!</span>`;
             }
         }
         
@@ -321,15 +316,13 @@
             updateCountdown();
         }
 
-        // Scroll Animations (Intersection Observer)
-        const observerOptions = {
-            threshold: 0.2 // L'animazione parte quando il 20% dell'elemento è visibile
-        };
+        // Scroll Animations
+        const observerOptions = { threshold: 0.2 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('scroll-visible');
-                    observer.unobserve(entry.target); // Ferma l'osservazione una volta animato
+                    observer.unobserve(entry.target); 
                 }
             });
         }, observerOptions);
