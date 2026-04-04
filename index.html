@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta name="description" content="Vivi con noi il giorno più bello della nostra vita: 25 Luglio 2026.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria & Pasquale - Il Nostro Matrimonio</title>
     
+    <meta name="description" content="Vivi con noi il giorno più bello della nostra vita: 25 Luglio 2026.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://juanpasfede.github.io/mariaepasqualesposi.github.io/">
     <meta property="og:title" content="Maria & Pasquale - Il Nostro Matrimonio">
@@ -15,7 +18,7 @@
     <meta property="twitter:url" content="https://juanpasfede.github.io/mariaepasqualesposi.github.io/">
     <meta property="twitter:title" content="Maria & Pasquale - Il Nostro Matrimonio">
     <meta property="twitter:description" content="Siete invitati a festeggiare con noi! 25 Luglio 2026.">
-    <meta property="twitter:image" content="https://juanpasfede.github.io/mariaepasqualesposi.github.io/logo.png">
+    <meta property="twitter:image" content="https://juanpasfede.github.io/mariaepasqualesposi.github.io/anteprima_social.jpg">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
@@ -91,7 +94,7 @@
     <nav class="fixed w-full z-50 bg-white shadow-md">
         <div class="max-w-6xl mx-auto px-4 h-20 flex justify-between items-center relative z-20 bg-white">
             <a href="#" class="flex items-center">
-                <img src="logo.png" alt="Logo Maria e Pasquale" class="h-20 w-auto" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <img src="logo.png" alt="Logo Maria e Pasquale" class="h-12 md:h-16 w-auto object-contain transition-all duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                 <span class="font-cursive text-3xl text-yellow-700 hidden">M & P</span>
             </a>
             
@@ -116,9 +119,18 @@
     </nav>
 
     <section class="hero-bg h-screen flex items-center justify-center text-center text-white px-4">
-        <div class="animate__animated animate__fadeIn">
-            <h2 class="font-serif italic text-xl md:text-2xl mb-4 tracking-[0.3em] uppercase">Ci Sposiamo</h2>
-            <h1 class="font-cursive text-7xl md:text-9xl mb-6">Maria & Pasquale</h1>
+        <div class="animate__animated animate__fadeIn flex flex-col items-center">
+            <h2 class="font-serif italic text-xl md:text-2xl mb-6 tracking-[0.3em] uppercase">Ci Sposiamo</h2>
+            
+            <div class="block mb-8 text-center">
+                <h1 class="font-cursive text-7xl md:text-9xl mb-2">Maria e Pasquale</h1>
+                
+                <div class="flex items-end justify-center">
+                    <img src="sunflower-s.png" alt="S" class="h-16 md:h-24 w-auto -mr-2 md:-mr-3" onerror="console.error('File sunflower-s.png non trovato!');">
+                    <span class="font-cursive text-7xl md:text-9xl tracking-tight">posi</span>
+                </div>
+            </div>
+
             <p class="font-serif text-2xl md:text-3xl mb-12 tracking-widest">25 LUGLIO 2026</p>
             <div id="countdown" class="flex justify-center space-x-4 md:space-x-8 text-sm md:text-base font-bold"></div>
         </div>
@@ -264,15 +276,17 @@
         function toggleMenu() {
             const isClosed = mobileMenu.classList.contains('opacity-0');
             if (isClosed) {
+                // Apre il menu
                 mobileMenu.classList.remove('-translate-y-[150%]', 'opacity-0', '-z-10');
                 mobileMenu.classList.add('translate-y-0', 'opacity-100', 'z-10');
                 menuIcon.setAttribute('data-lucide', 'x');
             } else {
+                // Chiude il menu
                 mobileMenu.classList.add('-translate-y-[150%]', 'opacity-0', '-z-10');
                 mobileMenu.classList.remove('translate-y-0', 'opacity-100', 'z-10');
                 menuIcon.setAttribute('data-lucide', 'menu');
             }
-            lucide.createIcons(); 
+            lucide.createIcons(); // Aggiorna l'icona (da menu a X)
         }
 
         menuBtn.onclick = toggleMenu;
@@ -307,13 +321,15 @@
             updateCountdown();
         }
 
-        // Scroll Animations
-        const observerOptions = { threshold: 0.2 };
+        // Scroll Animations (Intersection Observer)
+        const observerOptions = {
+            threshold: 0.2 // L'animazione parte quando il 20% dell'elemento è visibile
+        };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('scroll-visible');
-                    observer.unobserve(entry.target); 
+                    observer.unobserve(entry.target); // Ferma l'osservazione una volta animato
                 }
             });
         }, observerOptions);
