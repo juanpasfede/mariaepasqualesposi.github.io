@@ -14,6 +14,7 @@
             --text: #2c3e50;
         }
         body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); overflow-x: hidden; }
+        .no-scroll { overflow: hidden !important; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-cursive { font-family: 'Great Vibes', cursive; }
     </style>
@@ -40,31 +41,63 @@
             </div>
     </main>
 
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 hidden flex-col items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white hover:text-yellow-500 transition">
+            <i data-lucide="x" class="w-10 h-10"></i>
+        </button>
+        <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-md shadow-2xl">
+    </div>
+
     <script>
         lucide.createIcons();
 
-        // Selezioniamo il contenitore dove andranno le foto
         const grid = document.getElementById('masonry-grid');
-        const totalImages = 79; // Numero totale delle tue foto
+        const totalImages = 79; 
 
-        // Il ciclo for conta da 1 fino a 79
+        // Elementi del Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
         for (let i = 1; i <= totalImages; i++) {
-            // Creiamo un elemento <img> per ogni numero
             const img = document.createElement('img');
-            
-            // Impostiamo il percorso del file (es: gallery/gallery_1.jpg)
             img.src = `gallery/gallery_${i}.jpg`;
             img.alt = `Ricordo ${i}`;
-            
-            // Applichiamo il lazy loading
             img.loading = "lazy";
             
-            // Aggiungiamo le classi CSS per lo stile (margine inferiore, bordi arrotondati, ombra)
-            img.className = "w-full mb-6 rounded-lg shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 object-cover";
+            // Aggiunta la classe 'cursor-pointer' per indicare che è cliccabile
+            img.className = "w-full mb-6 rounded-lg shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 object-cover cursor-pointer";
             
-            // Inseriamo l'immagine finita dentro la griglia
+            // Evento Click: Apre il Lightbox passando l'indirizzo della foto cliccata
+            img.onclick = () => openLightbox(img.src);
+            
             grid.appendChild(img);
         }
+
+        // Funzioni per gestire apertura e chiusura del Lightbox
+        function openLightbox(imageSrc) {
+            lightboxImg.src = imageSrc;
+            lightbox.classList.remove('hidden');
+            // Breve ritardo per permettere l'animazione di entrata in dissolvenza
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+            }, 10);
+            document.body.classList.add('no-scroll'); // Blocca lo scorrimento della pagina sotto
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                document.body.classList.remove('no-scroll'); // Sblocca lo scorrimento
+            }, 300);
+        }
+
+        // Chiude il Lightbox anche cliccando sullo sfondo nero
+        lightbox.onclick = function(event) {
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        };
     </script>
 </body>
 </html>
