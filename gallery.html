@@ -42,62 +42,158 @@
     </main>
 
     <div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 hidden flex-col items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0">
-        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white hover:text-yellow-500 transition">
+        <button id="close-btn" class="absolute top-6 right-6 text-white hover:text-yellow-500 transition z-50">
             <i data-lucide="x" class="w-10 h-10"></i>
         </button>
-        <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-md shadow-2xl">
+        <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-md shadow-2xl relative z-40">
     </div>
 
-    <script>
-        lucide.createIcons();
+    <script type="module">
+        // 1. Importiamo gli strumenti di Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-        const grid = document.getElementById('masonry-grid');
-        const totalImages = 79; 
+        // ==========================================
+        // 2. INCOLLA QUI IL TUO FIREBASE CONFIG
+        // Sostituisci questo blocco con i tuoi dati esatti
+        <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-        // Elementi del Lightbox
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKvgs8IV5gg_5fc9T_NUa8gWeUZa9QQg",
+    authDomain: "matrimonio-gallery.firebaseapp.com",
+    projectId: "matrimonio-gallery",
+    storageBucket: "matrimonio-gallery.firebasestorage.app",
+    messagingSenderId: "739126728073",
+    appId: "1:739126728073:web:72f61c578111abd0983d58",
+    measurementId: "G-0ZQQ7ZPDJZ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "INSERISCI_LA_TUA_API_KEY",
+            authDomain: "matrimonio-gallery.firebaseapp.com",
+            projectId: "matrimonio-gallery",
+            storageBucket: "matrimonio-gallery.firebasestorage.app",
+            messagingSenderId: "INSERISCI_IL_TUO_SENDER_ID",
+            appId: "INSERISCI_IL_TUO_APP_ID",
+            measurementId: "G-0ZQQ7ZPDJZ"
+        };
+
+        // Inizializziamo l'app e il database
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Funzioni Lightbox (ora visibili a tutto il file)
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.getElementById('close-btn');
 
-        for (let i = 1; i <= totalImages; i++) {
-            const img = document.createElement('img');
-            img.src = `gallery/gallery_${i}.jpg`;
-            img.alt = `Ricordo ${i}`;
-            img.loading = "lazy";
-            
-            // Aggiunta la classe 'cursor-pointer' per indicare che è cliccabile
-            img.className = "w-full mb-6 rounded-lg shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 object-cover cursor-pointer";
-            
-            // Evento Click: Apre il Lightbox passando l'indirizzo della foto cliccata
-            img.onclick = () => openLightbox(img.src);
-            
-            grid.appendChild(img);
-        }
-
-        // Funzioni per gestire apertura e chiusura del Lightbox
         function openLightbox(imageSrc) {
             lightboxImg.src = imageSrc;
             lightbox.classList.remove('hidden');
-            // Breve ritardo per permettere l'animazione di entrata in dissolvenza
-            setTimeout(() => {
-                lightbox.classList.remove('opacity-0');
-            }, 10);
-            document.body.classList.add('no-scroll'); // Blocca lo scorrimento della pagina sotto
+            setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
+            document.body.classList.add('no-scroll');
         }
 
         function closeLightbox() {
             lightbox.classList.add('opacity-0');
             setTimeout(() => {
                 lightbox.classList.add('hidden');
-                document.body.classList.remove('no-scroll'); // Sblocca lo scorrimento
+                document.body.classList.remove('no-scroll');
             }, 300);
         }
 
-        // Chiude il Lightbox anche cliccando sullo sfondo nero
-        lightbox.onclick = function(event) {
-            if (event.target === lightbox) {
-                closeLightbox();
-            }
-        };
+        closeBtn.onclick = closeLightbox;
+        lightbox.onclick = (e) => { if (e.target === lightbox) closeLightbox(); };
+
+        // Creazione Griglia e Reacts
+        const grid = document.getElementById('masonry-grid');
+        const totalImages = 79; 
+
+        for (let i = 1; i <= totalImages; i++) {
+            // Contenitore per foto e cuore
+            const wrapper = document.createElement('div');
+            wrapper.className = "relative mb-6 break-inside-avoid group";
+
+            // Immagine
+            const img = document.createElement('img');
+            img.src = `gallery/gallery_${i}.jpg`;
+            img.loading = "lazy";
+            img.className = "w-full rounded-lg shadow-md object-cover cursor-pointer hover:shadow-xl transition-shadow duration-300";
+            img.onclick = () => openLightbox(img.src);
+
+            // Barra dei Mi Piace (visibile al passaggio del mouse o se ha già dei like)
+            const reactBar = document.createElement('div');
+            reactBar.className = "absolute bottom-3 right-3 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300";
+
+            const heartBtn = document.createElement('button');
+            heartBtn.innerHTML = `<i data-lucide="heart" class="w-5 h-5 text-gray-400 hover:text-red-500 hover:fill-red-500 transition"></i>`;
+            
+            const countSpan = document.createElement('span');
+            countSpan.className = "text-sm font-bold text-gray-700";
+            countSpan.innerText = "0";
+
+            reactBar.appendChild(heartBtn);
+            reactBar.appendChild(countSpan);
+            wrapper.appendChild(img);
+            wrapper.appendChild(reactBar);
+            grid.appendChild(wrapper);
+
+            // --- LOGICA FIREBASE ---
+            // Riferimento al "documento" di questa specifica foto nel database
+            const imgRef = doc(db, "foto_likes", `gallery_${i}`);
+
+            // Leggiamo i "mi piace" attuali dal database quando carichiamo la pagina
+            getDoc(imgRef).then((docSnap) => {
+                if (docSnap.exists()) {
+                    const likes = docSnap.data().likes || 0;
+                    countSpan.innerText = likes;
+                    if(likes > 0) {
+                        const icon = heartBtn.querySelector('i');
+                        icon.classList.remove('text-gray-400');
+                        icon.classList.add('text-red-500', 'fill-red-500');
+                        reactBar.classList.remove('opacity-0', 'group-hover:opacity-100'); // Mantiene visibile il cuoricino
+                    }
+                }
+            });
+
+            // Cosa succede quando clicchiamo il cuore
+            heartBtn.onclick = async (e) => {
+                e.stopPropagation(); // Evita che si apra l'ingrandimento se clicchiamo sul cuore
+                
+                // Coloriamo subito il cuore per l'utente
+                const icon = heartBtn.querySelector('i');
+                icon.classList.remove('text-gray-400');
+                icon.classList.add('text-red-500', 'fill-red-500');
+                reactBar.classList.remove('opacity-0', 'group-hover:opacity-100');
+
+                // Aggiungiamo +1 sul momento
+                let currentCount = parseInt(countSpan.innerText);
+                countSpan.innerText = currentCount + 1; 
+
+                // Inviamo il comando a Firebase
+                const docSnap = await getDoc(imgRef);
+                if (docSnap.exists()) {
+                    await updateDoc(imgRef, { likes: increment(1) });
+                } else {
+                    await setDoc(imgRef, { likes: 1 });
+                }
+            };
+        }
+
+        // Carica le icone (cuoricini e X di chiusura)
+        setTimeout(() => lucide.createIcons(), 100);
     </script>
 </body>
 </html>
