@@ -80,16 +80,54 @@
         const db = getFirestore(app);
 
         // Funzioni Lightbox (ora visibili a tutto il file)
+// Funzioni Lightbox (ora visibili a tutto il file)
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const closeBtn = document.getElementById('close-btn');
+        
+        // Riferimenti ai nuovi elementi del react nel lightbox
+        const lightboxHeartBtn = document.getElementById('lightbox-heart-btn');
+        const lightboxCount = document.getElementById('lightbox-count');
 
-        function openLightbox(imageSrc) {
+        // Ora la funzione riceve anche il pulsante e il contatore originali della griglia
+        function openLightbox(imageSrc, gridHeartBtn, gridCountSpan) {
             lightboxImg.src = imageSrc;
-            // Rimuoviamo 'hidden' e aggiungiamo 'flex' per forzare l'allineamento al centro
             lightbox.classList.remove('hidden');
             lightbox.classList.add('flex');
             
+            // --- EFFETTO TELECOMANDO ---
+            // 1. Sincronizziamo il numero visivo iniziale
+            lightboxCount.innerText = gridCountSpan.innerText;
+            
+            // 2. Sincronizziamo il colore e lo stato del cuore (vuoto/pieno)
+            const gridIcon = gridHeartBtn.querySelector('svg');
+            const lightboxIcon = lightboxHeartBtn.querySelector('svg');
+            
+            if(gridIcon && lightboxIcon) {
+                lightboxIcon.setAttribute('class', gridIcon.getAttribute('class'));
+                if (gridIcon.hasAttribute('fill')) {
+                    lightboxIcon.setAttribute('fill', gridIcon.getAttribute('fill'));
+                } else {
+                    lightboxIcon.removeAttribute('fill');
+                }
+            }
+
+            // 3. Se clicchiamo nel lightbox, simuliamo un clic sulla griglia!
+            lightboxHeartBtn.onclick = () => {
+                gridHeartBtn.click(); // Clic "invisibile" sul pulsante originale
+                
+                // Aggiorniamo subito l'aspetto nel lightbox copiandolo di nuovo dalla griglia
+                setTimeout(() => {
+                    lightboxCount.innerText = gridCountSpan.innerText;
+                    lightboxIcon.setAttribute('class', gridIcon.getAttribute('class'));
+                    if (gridIcon.hasAttribute('fill')) {
+                        lightboxIcon.setAttribute('fill', gridIcon.getAttribute('fill'));
+                    } else {
+                        lightboxIcon.removeAttribute('fill');
+                    }
+                }, 50); // Piccolo ritardo per dare il tempo a Firebase di elaborare il clic
+            };
+
             setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
             document.body.classList.add('no-scroll');
         }
@@ -97,7 +135,6 @@
         function closeLightbox() {
             lightbox.classList.add('opacity-0');
             setTimeout(() => {
-                // Rimuoviamo 'flex' e rimettiamo 'hidden' per nascondere tutto
                 lightbox.classList.remove('flex');
                 lightbox.classList.add('hidden');
                 document.body.classList.remove('no-scroll');
