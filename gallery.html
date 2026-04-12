@@ -110,12 +110,12 @@
             img.className = "w-full rounded-lg shadow-md object-cover cursor-pointer hover:shadow-xl transition-shadow duration-300";
             img.onclick = () => openLightbox(img.src);
 
-            // Barra dei Mi Piace (visibile al passaggio del mouse o se ha già dei like)
+            // Barra dei Mi Piace: Usa "md:" per renderla a scomparsa SOLO su PC. Su mobile sarà sempre visibile.
             const reactBar = document.createElement('div');
-            reactBar.className = "absolute bottom-3 right-3 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300";
+            reactBar.className = "absolute bottom-3 right-3 bg-white/90 backdrop-blur px-3 py-1.5 rounded-full shadow-lg flex items-center space-x-2 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100";
 
             const heartBtn = document.createElement('button');
-            heartBtn.innerHTML = `<i data-lucide="heart" class="w-5 h-5 text-gray-400 hover:text-red-500 hover:fill-red-500 transition"></i>`;
+            heartBtn.innerHTML = `<i data-lucide="heart" class="w-5 h-5 text-gray-400 hover:text-red-500 transition"></i>`;
             
             const countSpan = document.createElement('span');
             countSpan.className = "text-sm font-bold text-gray-700";
@@ -129,9 +129,9 @@
 
             // --- LOGICA FIREBASE E MEMORIA LOCALE ---
             const imgRef = doc(db, "foto_likes", `gallery_${i}`);
-            const storageKey = `liked_gallery_${i}`; // Il nome della "nota" nel taccuino per questa specifica foto
+            const storageKey = `liked_gallery_${i}`; 
 
-            // 1. Controlliamo se l'utente ha già messo "Mi piace" in passato dal suo dispositivo
+            // Controlliamo se l'utente ha già messo "Mi piace"
             let hasLiked = localStorage.getItem(storageKey) === 'true';
 
             // Leggiamo i "mi piace" totali dal database
@@ -140,14 +140,13 @@
                     const likes = docSnap.data().likes || 0;
                     countSpan.innerText = likes;
                     
-                    // Se la foto ha dei Mi piace in generale, o se noi avevamo messo Mi piace, mostriamo la barra
+                    // Se la foto ha dei Mi piace, la manteniamo sempre visibile anche su PC
                     if(likes > 0 || hasLiked) {
-                        reactBar.classList.remove('opacity-0', 'group-hover:opacity-100');
+                        reactBar.classList.remove('md:opacity-0', 'md:group-hover:opacity-100');
                     }
                     
-                    // Se questo specifico utente ha messo Mi piace, coloriamo il suo cuoricino
+                    // Coloriamo il cuore se avevamo già cliccato
                     if(hasLiked) {
-                        // Usiamo un piccolo ritardo per assicurarci che Lucide abbia già trasformato l'icona in <svg>
                         setTimeout(() => {
                             const icon = heartBtn.querySelector('svg');
                             if(icon) {
@@ -161,7 +160,7 @@
 
             // Cosa succede quando clicchiamo il cuore
             heartBtn.onclick = async (e) => {
-                e.stopPropagation(); // Evita che si apra l'ingrandimento se clicchiamo sul cuore
+                e.stopPropagation(); 
                 
                 const icon = heartBtn.querySelector('svg');
                 let currentCount = parseInt(countSpan.innerText) || 0;
@@ -171,32 +170,35 @@
 
                 if (hasLiked) {
                     // AZIONE: TOGLIERE IL MI PIACE 💔
-                    // 1. Aggiorniamo la grafica
                     icon.classList.remove('text-red-500', 'fill-red-500');
                     icon.classList.add('text-gray-400');
+                    icon.setAttribute('fill', 'none'); // Questo forza lo svuotamento del cuore visivamente
+                    
                     countSpan.innerText = Math.max(0, currentCount - 1);
                     
-                    // 2. Cancelliamo la nota dal taccuino
+                    // Se i mi piace tornano a zero, ripristiniamo l'effetto a scomparsa su PC
+                    if (countSpan.innerText === "0") {
+                        reactBar.classList.add('md:opacity-0', 'md:group-hover:opacity-100');
+                    }
+                    
                     localStorage.removeItem(storageKey);
                     hasLiked = false;
 
-                    // 3. Sottraiamo 1 su Firebase (solo se il documento esiste già)
                     if (exists) {
                         await updateDoc(imgRef, { likes: increment(-1) });
                     }
                 } else {
                     // AZIONE: AGGIUNGERE IL MI PIACE ❤️
-                    // 1. Aggiorniamo la grafica
                     icon.classList.remove('text-gray-400');
                     icon.classList.add('text-red-500', 'fill-red-500');
-                    reactBar.classList.remove('opacity-0', 'group-hover:opacity-100');
+                    icon.removeAttribute('fill'); // Rimuove il blocco di svuotamento se era stato applicato
+                    
+                    reactBar.classList.remove('md:opacity-0', 'md:group-hover:opacity-100');
                     countSpan.innerText = currentCount + 1;
 
-                    // 2. Scriviamo la nota nel taccuino
                     localStorage.setItem(storageKey, 'true');
                     hasLiked = true;
 
-                    // 3. Aggiungiamo 1 su Firebase
                     if (exists) {
                         await updateDoc(imgRef, { likes: increment(1) });
                     } else {
@@ -204,7 +206,7 @@
                     }
                 }
             };
-            }
+        }
 
         // Carica le icone (cuoricini e X di chiusura)
         setTimeout(() => lucide.createIcons(), 100);
