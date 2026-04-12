@@ -323,8 +323,15 @@
         <input type="text" name="Orario_Arrivo" placeholder="es. 15:30" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
     </div>
     <div>
-        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Luogo di Arrivo</label>
-        <input type="text" name="Luogo_Arrivo" placeholder="es. Stazione di Sibari o Aeroporto di Crotone" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Luogo di Arrivo</label>
+    <select name="Luogo_Arrivo" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+        <option value="stazione_sibari">Stazione di Sibari (treno)</option>
+        <option value="aeroporto_crotone">Aeroporto Crotone</option>
+        <option value="aeroporto_lamezia">Aeroporto Lamezia Terme</option>
+        <option value="fermata_torretta">Fermata Torretta di Crucoli</option>
+        <option value="fermata_bus_cariati">Fermata Bus Cariati</option>
+        <option value="altro">Altro</option>
+    </select>
     </div>
 </div>
             <div>
