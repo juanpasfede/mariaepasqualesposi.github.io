@@ -270,16 +270,27 @@
         <p class="text-gray-500 uppercase tracking-widest text-sm mb-12">Conferma la tua presenza entro il 10 Luglio 2026</p>
         
         <form action="https://formspree.io/f/xzdjqrbv" method="POST" id="rsvp-form" class="card p-8 space-y-6 text-left">
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Nome e Cognome</label>
-                <input type="text" name="Nominativo" required class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div>
+        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Nome e Cognome</label>
+        <input type="text" name="Nominativo" required class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+    </div>
+    <div>
+        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Menù</label>
+        <select name="Menu_Principale" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+            <option value="">Scegli il menù...</option>
+            <option value="pesce">Pesce</option>
+            <option value="carne">Carne</option>
+            <option value="bambino">Bambino</option>
+        </select>
+    </div>
+</div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Parteciperai?</label>
                     <select name="Partecipazione" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
-                        <option value="Sì, con piacere">Sì</option>
-                        <option value="No, a malincuore">No</option>
+                        <option value="Sì">Sì</option>
+                        <option value="No">No</option>
                     </select>
                 </div>
                 <div>
@@ -296,6 +307,7 @@
         <div>
             <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Menù</label>
             <select name="Menu_Accompagnatore_1" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                <option value="">Scegli il menù...</option>
                 <option value="pesce">Pesce</option>
                 <option value="carne">Carne</option>
                 <option value="bambino">Bambino</option>
@@ -311,6 +323,7 @@
         <div>
             <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Menù</label>
             <select name="Menu_Accompagnatore_2" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                <option value="">Scegli il menù...</option>
                 <option value="pesce">Pesce</option>
                 <option value="carne">Carne</option>
                 <option value="bambino">Bambino</option>
@@ -326,6 +339,7 @@
         <div>
             <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Menù</label>
             <select name="Menu_Accompagnatore_3" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                <option value="">Scegli il menù...</option>
                 <option value="pesce">Pesce</option>
                 <option value="carne">Carne</option>
                 <option value="bambino">Bambino</option>
@@ -341,6 +355,7 @@
         <div>
             <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Menù</label>
             <select name="Menu_Accompagnatore_4" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                <option value="">Scegli il menù...</option>
                 <option value="pesce">Pesce</option>
                 <option value="carne">Carne</option>
                 <option value="bambino">Bambino</option>
@@ -356,6 +371,7 @@
         <div>
             <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Menù</label>
             <select name="Menu_Accompagnatore_5" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                <option value="">Scegli il menù...</option>
                 <option value="pesce">Pesce</option>
                 <option value="carne">Carne</option>
                 <option value="bambino">Bambino</option>
