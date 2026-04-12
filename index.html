@@ -311,6 +311,19 @@
         <p class="text-xs uppercase tracking-[0.4em] text-gray-400 font-bold">25 . 07 . 2026</p>
     </footer>
 
+    <script>
+        // Qui incolliamo le nuove funzioni per il pernottamento
+        function openStayModal() {
+            document.getElementById('stay-modal').classList.replace('hidden', 'flex');
+            document.body.classList.add('no-scroll');
+        }
+
+        function closeStayModal() {
+            document.getElementById('stay-modal').classList.replace('flex', 'hidden');
+            document.body.classList.remove('no-scroll');
+        }
+    </script>
+    
     <div id="modal" class="fixed inset-0 bg-black/60 hidden z-[100] items-center justify-center px-4 backdrop-blur-sm">
         <div class="bg-white p-10 rounded-2xl text-center max-w-sm shadow-2xl animate__animated animate__zoomIn">
             <i data-lucide="check-circle" class="mx-auto text-green-500 w-16 h-16 mb-4"></i>
@@ -486,19 +499,5 @@
         </form>
     </div>
 </div>
-<script>
-        // Qui incolliamo le nuove funzioni per il pernottamento
-        function openStayModal() {
-            document.getElementById('stay-modal').classList.replace('hidden', 'flex');
-            document.body.classList.add('no-scroll');
-        }
-
-        function closeStayModal() {
-            document.getElementById('stay-modal').classList.replace('flex', 'hidden');
-            document.body.classList.remove('no-scroll');
-        }
-        
-        // ... qui ci sono probabilmente anche le altre funzioni che abbiamo scritto prima ...
-</script>
 </body>
 </html>
