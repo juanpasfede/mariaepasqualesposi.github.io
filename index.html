@@ -249,6 +249,18 @@
                     <a href="https://www.google.com/maps/search/?api=1&query=Tenuta+del+Fallao+Crotone" target="_blank" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Mappa</a>
                     <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Matrimonio%20Maria%20e%20Pasquale%20-%20Ricevimento&dates=20260725T173000Z/20260725T235900Z&details=PROMEMORIA%3A%20Si%20prega%20di%20confermare%20la%20partecipazione%20entro%20il%2010%20Luglio%202026%20ore%2008%3A00.%0A%0AIndirizzi%3A%0A-%20Cerimonia%3A%20Chiesa%20dei%20Santi%20Pietro%20e%20Paolo%2C%20Crucoli%20(KR)%0A-%20Ricevimento%3A%20Tenuta%20del%20Fallao%2C%20Crotone%20(KR)&location=Tenuta%20del%20Fallao%2C%20Crotone" target="_blank" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest mt-2 sm:mt-0 sm:ml-2">Salva Ricevimento</a>
                 </div>
+                <div class="card p-10 scroll-hidden" style="transition-delay: 0.4s;">
+                <i data-lucide="bed" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
+                <h3 class="font-serif text-2xl mb-4 uppercase">Pernottamento</h3>
+                <p class="text-gray-600 mb-6 italic text-sm">Saremo lieti di ospitarvi per coordinare al meglio i vostri soggiorni.</p>
+                <button onclick="openStayModal()" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Dettagli e RSVP</button>
+                </div>
+                <div class="card p-10 scroll-hidden" style="transition-delay: 0.6s;">
+                <i data-lucide="map" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
+                <h3 class="font-serif text-2xl mb-4 uppercase">Scopri la Calabria</h3>
+                <p class="text-gray-600 mb-6 italic text-sm">Suggerimenti su cosa vedere e come godersi il nostro splendido mare.</p>
+                <a href="https://www.guideturisticheassociatecalabria.it/destinazioni/calabria/" target="_blank" class="inline-block border border-yellow-700 text-yellow-700 px-8 py-3 rounded-full hover:bg-yellow-700 hover:text-white transition uppercase text-xs font-bold tracking-widest">Esplora</a>
+                </div>
             </div>
         </div>
     </section>
@@ -448,6 +460,45 @@
             btn.innerText = "COPIATO!";
             setTimeout(() => btn.innerText = originalText, 2000);
         }
+    </script>
+<div id="stay-modal" class="fixed inset-0 bg-black/60 hidden z-[110] items-center justify-center px-4 backdrop-blur-sm overflow-y-auto py-10">
+    <div class="bg-white p-6 md:p-10 rounded-2xl max-w-2xl w-full shadow-2xl animate__animated animate__zoomIn relative">
+        <button onclick="closeStayModal()" class="absolute top-4 right-4 text-gray-400 hover:text-yellow-700">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        
+        <h3 class="text-3xl font-serif mb-6 text-center italic text-yellow-700">Ospitalità e Pernottamento</h3>
+        
+        <p class="text-gray-700 mb-8 leading-relaxed text-sm md:text-base">
+            Saremo lieti di avervi come nostri ospiti. Per coordinare al meglio i soggiorni, vi preghiamo di confermare la vostra presenza con anticipo, specificando le date di arrivo e partenza. 
+            Avremo il piacere di offrirvi la sistemazione per la notte di <strong>sabato 25 luglio</strong> e per una notte a scelta tra <strong>venerdì 24 o domenica 26</strong>. <br><br>
+            Qualora desideraste prolungare la permanenza per godere del mare calabrese, vi metteremo in contatto con la struttura per concordare tariffe agevolate. Compila il modulo qui sotto per procedere.
+        </p>
+
+        <form action="https://formspree.io/f/xzdjqrbv" method="POST" class="space-y-4 text-left border-t pt-6">
+            <input type="text" name="Nominativo" placeholder="Nome e Cognome" required class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
+            <div class="grid grid-cols-2 gap-4">
+                <input type="text" name="Arrivo" placeholder="Data Arrivo" class="border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
+                <input type="text" name="Partenza" placeholder="Data Partenza" class="border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
+            </div>
+            <textarea name="Messaggio" placeholder="Note per la sistemazione..." rows="2" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent"></textarea>
+            <button type="submit" class="w-full bg-yellow-700 text-white py-3 rounded-lg uppercase font-bold tracking-widest hover:bg-yellow-800 transition">Invia Conferma</button>
+        </form>
+    </div>
+</div>
+<script>
+        // Qui incolliamo le nuove funzioni per il pernottamento
+        function openStayModal() {
+            document.getElementById('stay-modal').classList.replace('hidden', 'flex');
+            document.body.classList.add('no-scroll');
+        }
+
+        function closeStayModal() {
+            document.getElementById('stay-modal').classList.replace('flex', 'hidden');
+            document.body.classList.remove('no-scroll');
+        }
+        
+        // ... qui ci sono probabilmente anche le altre funzioni che abbiamo scritto prima ...
     </script>
 </body>
 </html>
