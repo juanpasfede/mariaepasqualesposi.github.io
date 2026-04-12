@@ -127,20 +127,34 @@
             wrapper.appendChild(reactBar);
             grid.appendChild(wrapper);
 
-            // --- LOGICA FIREBASE ---
-            // Riferimento al "documento" di questa specifica foto nel database
+            // --- LOGICA FIREBASE E MEMORIA LOCALE ---
             const imgRef = doc(db, "foto_likes", `gallery_${i}`);
+            const storageKey = `liked_gallery_${i}`; // Il nome della "nota" nel taccuino per questa specifica foto
 
-            // Leggiamo i "mi piace" attuali dal database quando carichiamo la pagina
+            // 1. Controlliamo se l'utente ha già messo "Mi piace" in passato dal suo dispositivo
+            let hasLiked = localStorage.getItem(storageKey) === 'true';
+
+            // Leggiamo i "mi piace" totali dal database
             getDoc(imgRef).then((docSnap) => {
                 if (docSnap.exists()) {
                     const likes = docSnap.data().likes || 0;
                     countSpan.innerText = likes;
-                    if(likes > 0) {
-                        const icon = heartBtn.querySelector('svg');
-                        icon.classList.remove('text-gray-400');
-                        icon.classList.add('text-red-500', 'fill-red-500');
-                        reactBar.classList.remove('opacity-0', 'group-hover:opacity-100'); // Mantiene visibile il cuoricino
+                    
+                    // Se la foto ha dei Mi piace in generale, o se noi avevamo messo Mi piace, mostriamo la barra
+                    if(likes > 0 || hasLiked) {
+                        reactBar.classList.remove('opacity-0', 'group-hover:opacity-100');
+                    }
+                    
+                    // Se questo specifico utente ha messo Mi piace, coloriamo il suo cuoricino
+                    if(hasLiked) {
+                        // Usiamo un piccolo ritardo per assicurarci che Lucide abbia già trasformato l'icona in <svg>
+                        setTimeout(() => {
+                            const icon = heartBtn.querySelector('svg');
+                            if(icon) {
+                                icon.classList.remove('text-gray-400');
+                                icon.classList.add('text-red-500', 'fill-red-500');
+                            }
+                        }, 50);
                     }
                 }
             });
@@ -149,25 +163,47 @@
             heartBtn.onclick = async (e) => {
                 e.stopPropagation(); // Evita che si apra l'ingrandimento se clicchiamo sul cuore
                 
-                // Coloriamo subito il cuore per l'utente
                 const icon = heartBtn.querySelector('svg');
-                icon.classList.remove('text-gray-400');
-                icon.classList.add('text-red-500', 'fill-red-500');
-                reactBar.classList.remove('opacity-0', 'group-hover:opacity-100');
+                let currentCount = parseInt(countSpan.innerText) || 0;
 
-                // Aggiungiamo +1 sul momento
-                let currentCount = parseInt(countSpan.innerText);
-                countSpan.innerText = currentCount + 1; 
-
-                // Inviamo il comando a Firebase
                 const docSnap = await getDoc(imgRef);
-                if (docSnap.exists()) {
-                    await updateDoc(imgRef, { likes: increment(1) });
+                const exists = docSnap.exists();
+
+                if (hasLiked) {
+                    // AZIONE: TOGLIERE IL MI PIACE 💔
+                    // 1. Aggiorniamo la grafica
+                    icon.classList.remove('text-red-500', 'fill-red-500');
+                    icon.classList.add('text-gray-400');
+                    countSpan.innerText = Math.max(0, currentCount - 1);
+                    
+                    // 2. Cancelliamo la nota dal taccuino
+                    localStorage.removeItem(storageKey);
+                    hasLiked = false;
+
+                    // 3. Sottraiamo 1 su Firebase (solo se il documento esiste già)
+                    if (exists) {
+                        await updateDoc(imgRef, { likes: increment(-1) });
+                    }
                 } else {
-                    await setDoc(imgRef, { likes: 1 });
+                    // AZIONE: AGGIUNGERE IL MI PIACE ❤️
+                    // 1. Aggiorniamo la grafica
+                    icon.classList.remove('text-gray-400');
+                    icon.classList.add('text-red-500', 'fill-red-500');
+                    reactBar.classList.remove('opacity-0', 'group-hover:opacity-100');
+                    countSpan.innerText = currentCount + 1;
+
+                    // 2. Scriviamo la nota nel taccuino
+                    localStorage.setItem(storageKey, 'true');
+                    hasLiked = true;
+
+                    // 3. Aggiungiamo 1 su Firebase
+                    if (exists) {
+                        await updateDoc(imgRef, { likes: increment(1) });
+                    } else {
+                        await setDoc(imgRef, { likes: 1 });
+                    }
                 }
             };
-        }
 
         // Carica le icone (cuoricini e X di chiusura)
         setTimeout(() => lucide.createIcons(), 100);
