@@ -158,7 +158,7 @@
             img.src = `gallery/gallery_${i}.jpg`;
             img.loading = "lazy";
             img.className = "w-full rounded-lg shadow-md object-cover cursor-pointer hover:shadow-xl transition-shadow duration-300";
-            img.onclick = () => openLightbox(img.src);
+            img.onclick = () => openLightbox(img.src, heartBtn, countSpan);
 
             // Barra dei Mi Piace: Usa "md:" per renderla a scomparsa SOLO su PC. Su mobile sarà sempre visibile.
             const reactBar = document.createElement('div');
