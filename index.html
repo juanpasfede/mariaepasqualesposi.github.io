@@ -311,46 +311,78 @@
         <p class="text-xs uppercase tracking-[0.4em] text-gray-400 font-bold">25 . 07 . 2026</p>
     </footer>
 
-    <script>
-        // Qui incolliamo le nuove funzioni per il pernottamento
-        function openStayModal() {
-            document.getElementById('stay-modal').classList.replace('hidden', 'flex');
-            document.body.classList.add('no-scroll');
-        }
+   <div id="stay-modal" class="fixed inset-0 bg-black/60 hidden z-[110] items-center justify-center px-4 backdrop-blur-sm overflow-y-auto py-10">
+        <div class="bg-white p-6 md:p-10 rounded-2xl max-w-2xl w-full shadow-2xl animate__animated animate__zoomIn relative">
+            <button onclick="closeStayModal()" class="absolute top-4 right-4 text-gray-400 hover:text-yellow-700">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <h3 class="text-3xl font-serif mb-6 text-center italic text-yellow-700">Ospitalità e Pernottamento</h3>
+            <p class="text-gray-700 mb-8 leading-relaxed text-sm">
+                Saremo lieti di avervi come nostri ospiti. Per coordinare al meglio i soggiorni, vi preghiamo di confermare la vostra presenza con anticipo, specificando le date di arrivo e partenza. 
+                Avremo il piacere di offrirvi la sistemazione per la notte di <strong>sabato 25 luglio</strong> e per una notte a scelta tra <strong>venerdì 24 o domenica 26</strong>. <br><br>
+                Qualora desideraste prolungare la permanenza per godere del mare calabrese, vi metteremo in contatto con la struttura per concordare tariffe agevolate. Compila il modulo qui sotto per procedere.
+            </p>
+            <form action="https://formspree.io/f/xzdjqrbv" method="POST" class="space-y-4 text-left border-t pt-6">
+                <input type="text" name="Nominativo" placeholder="Nome e Cognome" required class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" name="Arrivo" placeholder="Data Arrivo" class="border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
+                    <input type="text" name="Partenza" placeholder="Data Partenza" class="border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
+                </div>
+                <textarea name="Messaggio" placeholder="Note per la sistemazione..." rows="2" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent"></textarea>
+                <button type="submit" class="w-full bg-yellow-700 text-white py-3 rounded-lg uppercase font-bold tracking-widest hover:bg-yellow-800 transition">Invia Conferma</button>
+            </form>
+        </div>
+    </div>
 
-        function closeStayModal() {
-            document.getElementById('stay-modal').classList.replace('flex', 'hidden');
-            document.body.classList.remove('no-scroll');
-        }
-    </script>
-    
     <div id="modal" class="fixed inset-0 bg-black/60 hidden z-[100] items-center justify-center px-4 backdrop-blur-sm">
         <div class="bg-white p-10 rounded-2xl text-center max-w-sm shadow-2xl animate__animated animate__zoomIn">
             <i data-lucide="check-circle" class="mx-auto text-green-500 w-16 h-16 mb-4"></i>
             <h3 class="text-2xl font-serif mb-2">Grazie!</h3>
-            <p class="text-gray-600 mb-6 italic">La vostra risposta è stata inviata correttamente. Non vediamo l'ora di festeggiare con voi!</p>
+            <p class="text-gray-600 mb-6 italic">La vostra risposta è stata inviata correttamente.</p>
             <button onclick="closeModal()" class="bg-yellow-700 text-white px-8 py-3 rounded-full uppercase text-xs font-bold tracking-widest">Chiudi</button>
         </div>
     </div>
 
     <script>
+        // Funzioni per gestire i Popup
+        function openStayModal() {
+            document.getElementById('stay-modal').classList.replace('hidden', 'flex');
+            document.body.classList.add('no-scroll');
+            lucide.createIcons(); // Questo fa apparire la X!
+        }
+        function closeStayModal() {
+            document.getElementById('stay-modal').classList.replace('flex', 'hidden');
+            document.body.classList.remove('no-scroll');
+        }
+        function closeModal() {
+            document.getElementById('modal').classList.replace('flex', 'hidden');
+        }
+
+        // Funzione Copia IBAN
+        function copyIBAN(event) {
+            const iban = document.getElementById('iban').innerText;
+            navigator.clipboard.writeText(iban);
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "COPIATO!";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        }
+
+        // Inizializzazione Icone
         lucide.createIcons();
-        
-        // Logica per il Preloader
+
+        // --- Logica Preloader ---
         document.addEventListener('DOMContentLoaded', () => {
             let progress = 0;
             const progressFill = document.getElementById('progress-fill');
             const loadingText = document.getElementById('loading-text');
             const loadingHeart = document.getElementById('loading-heart');
             const preloader = document.getElementById('preloader');
-
             const interval = setInterval(() => {
                 progress += Math.floor(Math.random() * 8) + 2; 
-                
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(interval);
-                    
                     setTimeout(() => {
                         preloader.classList.add('opacity-0');
                         setTimeout(() => {
@@ -359,20 +391,17 @@
                         }, 1000); 
                     }, 400); 
                 }
-                
                 progressFill.style.width = progress + '%';
                 loadingHeart.style.left = progress + '%';
                 loadingText.innerText = progress + '%';
-                
             }, 100); 
         });
-        
-        // Menu Mobile Toggle a cascata
+
+        // --- Menu Mobile ---
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
         const menuIcon = menuBtn.querySelector('i');
-
         function toggleMenu() {
             const isClosed = mobileMenu.classList.contains('opacity-0');
             if (isClosed) {
@@ -386,14 +415,12 @@
             }
             lucide.createIcons(); 
         }
-
         menuBtn.onclick = toggleMenu;
         mobileLinks.forEach(link => link.onclick = toggleMenu);
 
-        // Countdown
+        // --- Countdown ---
         const weddingDate = new Date("July 25, 2026 17:00:00").getTime();
         const countdownEl = document.getElementById("countdown");
-        
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = weddingDate - now;
@@ -401,10 +428,7 @@
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const secs = Math.floor((diff % (1000 * 60)) / 1000);
-            
             if (diff > 0) {
-                // Rimosso text-yellow-700 dai numeri del countdown nello script,
-                // ora ereditano il blu del body. Manteniamo le etichette in grigio per gerarchia.
                 countdownEl.innerHTML = `
                     <div class="flex flex-col"><span class="text-4xl font-serif">${days}</span><span class="text-[10px] text-gray-400">GIORNI</span></div>
                     <div class="flex flex-col"><span class="text-4xl font-serif">${hours}</span><span class="text-[10px] text-gray-400">ORE</span></div>
@@ -412,18 +436,12 @@
                     <div class="flex flex-col"><span class="text-4xl font-serif">${secs}</span><span class="text-[10px] text-gray-400">SECONDI</span></div>
                 `;
             } else {
-                // In caso di data raggiunta, mostriamo il messaggio in Oro per festeggiare
                 countdownEl.innerHTML = `<span class="text-2xl font-serif text-yellow-700 uppercase tracking-widest italic">Oggi è il gran giorno!</span>`;
             }
         }
-        
-        if(countdownEl) {
-            setInterval(updateCountdown, 1000);
-            updateCountdown();
-        }
+        if(countdownEl) { setInterval(updateCountdown, 1000); updateCountdown(); }
 
-        // Scroll Animations
-        const observerOptions = { threshold: 0.2 };
+        // --- Animazioni allo Scroll ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -431,73 +449,27 @@
                     observer.unobserve(entry.target); 
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.scroll-hidden').forEach((el) => observer.observe(el));
 
-        document.querySelectorAll('.scroll-hidden').forEach((el) => {
-            observer.observe(el);
-        });
-
-        // Gestione modulo Formspree
+        // --- Modulo RSVP Formspree ---
         const rsvpForm = document.getElementById('rsvp-form');
         if(rsvpForm) {
             rsvpForm.onsubmit = async (e) => {
                 e.preventDefault();
                 const data = new FormData(rsvpForm);
-                
                 try {
                     const response = await fetch(rsvpForm.action, {
-                        method: 'POST',
-                        body: data,
-                        headers: { 'Accept': 'application/json' }
+                        method: 'POST', body: data, headers: { 'Accept': 'application/json' }
                     });
-                    
                     if (response.ok) {
                         document.getElementById('modal').classList.replace('hidden', 'flex');
                         rsvpForm.reset();
-                    } else {
-                        alert("Si è verificato un errore. Assicurati di aver configurato l'ID Formspree correttamente.");
                     }
-                } catch (error) {
-                    alert("Errore di connessione. Riprova più tardi.");
-                }
+                } catch (error) { alert("Errore. Riprova più tardi."); }
             };
         }
-
-        function closeModal() { document.getElementById('modal').classList.replace('flex', 'hidden'); }
-        
-        function copyIBAN(event) {
-            const iban = document.getElementById('iban').innerText;
-            navigator.clipboard.writeText(iban);
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "COPIATO!";
-            setTimeout(() => btn.innerText = originalText, 2000);
-        }
     </script>
-<div id="stay-modal" class="fixed inset-0 bg-black/60 hidden z-[110] items-center justify-center px-4 backdrop-blur-sm overflow-y-auto py-10">
-    <div class="bg-white p-6 md:p-10 rounded-2xl max-w-2xl w-full shadow-2xl animate__animated animate__zoomIn relative">
-        <button onclick="closeStayModal()" class="absolute top-4 right-4 text-gray-400 hover:text-yellow-700">
-            <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-        
-        <h3 class="text-3xl font-serif mb-6 text-center italic text-yellow-700">Ospitalità e Pernottamento</h3>
-        
-        <p class="text-gray-700 mb-8 leading-relaxed text-sm md:text-base">
-            Saremo lieti di avervi come nostri ospiti. Per coordinare al meglio i soggiorni, vi preghiamo di confermare la vostra presenza con anticipo, specificando le date di arrivo e partenza. 
-            Avremo il piacere di offrirvi la sistemazione per la notte di <strong>sabato 25 luglio</strong> e per una notte a scelta tra <strong>venerdì 24 o domenica 26</strong>. <br><br>
-            Qualora desideraste prolungare la permanenza per godere del mare calabrese, vi metteremo in contatto con la struttura per concordare tariffe agevolate. Compila il modulo qui sotto per procedere.
-        </p>
 
-        <form action="https://formspree.io/f/xzdjqrbv" method="POST" class="space-y-4 text-left border-t pt-6">
-            <input type="text" name="Nominativo" placeholder="Nome e Cognome" required class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-            <div class="grid grid-cols-2 gap-4">
-                <input type="text" name="Arrivo" placeholder="Data Arrivo" class="border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-                <input type="text" name="Partenza" placeholder="Data Partenza" class="border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-            </div>
-            <textarea name="Messaggio" placeholder="Note per la sistemazione..." rows="2" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent"></textarea>
-            <button type="submit" class="w-full bg-yellow-700 text-white py-3 rounded-lg uppercase font-bold tracking-widest hover:bg-yellow-800 transition">Invia Conferma</button>
-        </form>
-    </div>
-</div>
 </body>
 </html>
