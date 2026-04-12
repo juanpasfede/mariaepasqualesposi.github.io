@@ -78,7 +78,10 @@
 
         function openLightbox(imageSrc) {
             lightboxImg.src = imageSrc;
+            // Rimuoviamo 'hidden' e aggiungiamo 'flex' per forzare l'allineamento al centro
             lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            
             setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
             document.body.classList.add('no-scroll');
         }
@@ -86,6 +89,8 @@
         function closeLightbox() {
             lightbox.classList.add('opacity-0');
             setTimeout(() => {
+                // Rimuoviamo 'flex' e rimettiamo 'hidden' per nascondere tutto
+                lightbox.classList.remove('flex');
                 lightbox.classList.add('hidden');
                 document.body.classList.remove('no-scroll');
             }, 300);
