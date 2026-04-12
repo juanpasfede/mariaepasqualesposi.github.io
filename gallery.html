@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Maria & Pasquale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #d4af37;
+            --secondary: #fdfbf7;
+            --text: #2c3e50;
+        }
+        body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); overflow-x: hidden; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 bg-[#fdfbf7] shadow-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center bg-[#fdfbf7]">
+            <a href="index.html" class="flex items-center text-yellow-700 hover:text-yellow-800 transition">
+                <i data-lucide="arrow-left" class="w-5 h-5 mr-2"></i>
+                <span class="uppercase tracking-widest text-xs font-bold">Torna alla Home</span>
+            </a>
+            <span class="font-cursive text-3xl text-yellow-700">M & P</span>
+        </div>
+    </nav>
+
+    <section class="pt-32 pb-12 text-center px-4">
+        <h1 class="text-yellow-700 font-serif text-4xl italic mb-4">I Nostri Ricordi</h1>
+        <p class="text-gray-600 italic">I momenti più belli della nostra storia, aspettando il grande giorno.</p>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-4 pb-24">
+        <div id="masonry-grid" class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6">
+            </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // Selezioniamo il contenitore dove andranno le foto
+        const grid = document.getElementById('masonry-grid');
+        const totalImages = 79; // Numero totale delle tue foto
+
+        // Il ciclo for conta da 1 fino a 79
+        for (let i = 1; i <= totalImages; i++) {
+            // Creiamo un elemento <img> per ogni numero
+            const img = document.createElement('img');
+            
+            // Impostiamo il percorso del file (es: gallery/gallery_1.jpg)
+            img.src = `gallery/gallery_${i}.jpg`;
+            img.alt = `Ricordo ${i}`;
+            
+            // Applichiamo il lazy loading
+            img.loading = "lazy";
+            
+            // Aggiungiamo le classi CSS per lo stile (margine inferiore, bordi arrotondati, ombra)
+            img.className = "w-full mb-6 rounded-lg shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 object-cover";
+            
+            // Inseriamo l'immagine finita dentro la griglia
+            grid.appendChild(img);
+        }
+    </script>
+</body>
+</html>
