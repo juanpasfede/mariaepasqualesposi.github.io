@@ -264,13 +264,22 @@
             </div>
         </div>
     </section>
-<section id="rsvp" class="py-24 max-w-3xl mx-auto px-4 text-center scroll-hidden">
+
+
+    <section id="rsvp" class="py-24 max-w-3xl mx-auto px-4 text-center scroll-hidden">
     <h2 class="font-serif text-4xl mb-4 italic text-center text-yellow-700">Conferma la tua presenza</h2>
     <p class="text-gray-500 uppercase tracking-widest text-sm mb-12">Entro il 10 Luglio 2026</p>
-    
+
+</div>    
     <form action="https://formspree.io/f/xzdjqrbv" method="POST" id="rsvp-form" class="card p-6 md:p-10 space-y-10 text-left">
-        <!-- LOGISTICA GENERALE -->
+        <div class="mb-10 p-6 bg-yellow-50/30 rounded-2xl border border-yellow-100">
+    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-yellow-700">Indirizzo E-mail</label>
+    <input type="email" name="email" required placeholder="esempio@email.com" class="w-full border-b-2 border-yellow-200 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition placeholder:text-gray-300">
+    <p class="text-[10px] text-gray-400 mt-2 italic">Ti invieremo una copia della conferma a questo indirizzo.</p>
+</div>
+<div class="bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
         
+<!-- LOGISTICA GENERALE -->
         <div class="pt-8 border-t border-gray-100 space-y-8">
             <!-- Partecipazione e Numero Ospiti -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
