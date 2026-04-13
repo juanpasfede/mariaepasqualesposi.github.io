@@ -416,28 +416,22 @@
     </footer>
 
    <div id="stay-modal" class="fixed inset-0 bg-black/60 hidden z-[110] items-center justify-center px-4 backdrop-blur-sm overflow-y-auto py-10">
-        <div class="bg-white p-6 md:p-10 rounded-2xl max-w-2xl w-full shadow-2xl animate__animated animate__zoomIn relative">
-            <button onclick="closeStayModal()" class="absolute top-4 right-4 text-gray-400 hover:text-yellow-700">
-                <i data-lucide="x" class="w-8 h-8"></i>
-            </button>
-            <h3 class="text-3xl font-serif mb-6 text-center italic text-yellow-700">Ospitalità e Pernottamento</h3>
-            <p class="text-gray-700 mb-8 leading-relaxed text-sm">
-                Saremo lieti di avervi come nostri ospiti. Per coordinare al meglio i soggiorni, vi preghiamo di confermare la vostra presenza con anticipo, specificando le date di arrivo e partenza. 
-                Avremo il piacere di offrirvi la sistemazione per la notte di <strong>sabato 25 luglio</strong> e per una notte a scelta tra <strong>venerdì 24 o domenica 26</strong>. <br><br>
-                Qualora desideraste prolungare la permanenza per godere del mare calabrese, vi metteremo in contatto con la struttura per concordare tariffe agevolate. Compila il modulo qui sotto per procedere.
-            </p>
-            <form action="https://formspree.io/f/xzdjqrbv" method="POST" class="space-y-4 text-center border-t pt-6">
-                <input type="text" name="Nominativo" placeholder="Nome e Cognome" required class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" name="Arrivo" placeholder="Data Arrivo" class="border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-                    <input type="text" name="Partenza" placeholder="Data Partenza" class="border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-                </div>
-                <textarea name="Messaggio" placeholder="Note per la sistemazione..." rows="2" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent"></textarea>
-                <button type="submit" class="w-full bg-yellow-700 text-white py-3 rounded-lg uppercase font-bold tracking-widest hover:bg-yellow-800 transition">Invia Conferma</button>
-            </form>
+    <div class="bg-white p-6 md:p-10 rounded-2xl max-w-2xl w-full shadow-2xl animate__animated animate__zoomIn relative text-center">
+        <button onclick="closeStayModal()" class="absolute top-4 right-4 text-gray-400 hover:text-yellow-700 transition">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <h3 class="text-3xl font-serif mb-6 italic text-yellow-700">Ospitalità e Pernottamento</h3>
+        <p class="text-gray-700 mb-8 leading-relaxed text-sm">
+            Saremo lieti di avervi come nostri ospiti. Per coordinare al meglio i soggiorni, vi preghiamo di confermare la vostra presenza con anticipo. 
+            Avremo il piacere di offrirvi la sistemazione per la notte di <strong>sabato 25 luglio</strong> e per una notte a scelta tra <strong>venerdì 24 o domenica 26</strong>.
+        </p>
+        <div class="border-t pt-8">
+            <a href="https://formspree.io/f/xzdjqrbv" target="_blank" class="inline-block w-full bg-yellow-700 text-white py-4 rounded-xl uppercase font-bold tracking-widest hover:bg-yellow-800 transition">
+                Vai al modulo di conferma
+            </a>
         </div>
     </div>
-
+</div>
     <div id="modal" class="fixed inset-0 bg-black/60 hidden z-[100] items-center justify-center px-4 backdrop-blur-sm">
         <div class="bg-white p-10 rounded-2xl text-center max-w-sm shadow-2xl animate__animated animate__zoomIn">
             <i data-lucide="check-circle" class="mx-auto text-green-500 w-16 h-16 mb-4"></i>
@@ -452,7 +446,7 @@
             <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
                 <i data-lucide="check-circle" class="text-green-500 w-12 h-12"></i>
             </div>
-            <h3 class="text-3xl font-serif mb-3 text-yellow-700 italic">Grazie di cuore!</h3>
+            <h3 class="text-3xl font-serif mb-3 text-yellow-700 italic">Grazie!</h3>
             <p class="text-gray-600 mb-8 leading-relaxed">
                 Grazie! La tua conferma è stata ricevuta correttamente.<br>
             </p>
