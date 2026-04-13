@@ -270,7 +270,7 @@
     <h2 class="font-serif text-4xl mb-4 italic text-yellow-700">Conferma la tua presenza</h2>
     <p class="text-gray-500 uppercase tracking-widest text-sm mb-12">Entro il 10 Luglio 2026</p>
     
-    <form action="INSERISCI_QUI_IL_TUO_URL_GOOGLE_SCRIPT" method="POST" id="rsvp-form" class="card p-8 space-y-10 text-center">
+    <form action="https://script.google.com/macros/s/AKfycbxI4G_F1ueYYq2M6wUxILmAcZQ6enPwD4L_Ozq7DQurCecGZkzAqXEUpX5Nfd_Vh5K7/exec" method="POST" id="rsvp-form" class="card p-8 space-y-10 text-center">
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-b pb-8 border-gray-50">
             <div>
@@ -341,6 +341,7 @@
                             <option value="">Scegli...</option>
                             <option value="glutine">Glutine</option>
                             <option value="lattosio">Lattosio</option>
+                            <option value="glutine+lattosio">Glutine + Lattosio</option>
                             <option value="nessuna">Nessuna</option>
                         </select>
                     </div>
@@ -366,6 +367,7 @@
                             <option value="">Scegli...</option>
                             <option value="glutine">Glutine</option>
                             <option value="lattosio">Lattosio</option>
+                            <option value="glutine+lattosio">Glutine + Lattosio</option>
                             <option value="nessuna">Nessuna</option>
                         </select>
                     </div>
@@ -391,6 +393,59 @@
                             <option value="">Scegli...</option>
                             <option value="glutine">Glutine</option>
                             <option value="lattosio">Lattosio</option>
+                            <option value="glutine+lattosio">Glutine + Lattosio</option>
+                            <option value="nessuna">Nessuna</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border border-gray-100 rounded-xl hover:border-yellow-100 transition">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome Accompagnatore 4</label>
+                        <input type="text" name="Accompagnatore_4" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-center">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tipologia</label>
+                        <div class="flex items-center justify-center space-x-4 py-2">
+                            <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_4" value="Adulto" class="mr-1 accent-yellow-700"> Adulto</label>
+                            <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_4" value="Bambino" class="mr-1 accent-yellow-700"> Bambino</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Intolleranze</label>
+                        <select name="Menu_Accompagnatore_4" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-sm text-center">
+                            <option value="">Scegli...</option>
+                            <option value="glutine">Glutine</option>
+                            <option value="lattosio">Lattosio</option>
+                            <option value="glutine+lattosio">Glutine + Lattosio</option>
+                            <option value="nessuna">Nessuna</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border border-gray-100 rounded-xl hover:border-yellow-100 transition">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome Accompagnatore 5</label>
+                        <input type="text" name="Accompagnatore_5" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-center">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tipologia</label>
+                        <div class="flex items-center justify-center space-x-4 py-2">
+                            <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_5" value="Adulto" class="mr-1 accent-yellow-700"> Adulto</label>
+                            <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_5" value="Bambino" class="mr-1 accent-yellow-700"> Bambino</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Intolleranze</label>
+                        <select name="Menu_Accompagnatore_5" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-sm text-center">
+                            <option value="">Scegli...</option>
+                            <option value="glutine">Glutine</option>
+                            <option value="lattosio">Lattosio</option>
+                            <option value="glutine+lattosio">Glutine + Lattosio</option>
                             <option value="nessuna">Nessuna</option>
                         </select>
                     </div>
