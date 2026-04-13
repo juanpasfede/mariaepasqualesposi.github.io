@@ -263,41 +263,39 @@
                 </div>
             </div>
         </div>
-    </section>
+   </section>
 
-
-    <section id="rsvp" class="py-24 max-w-3xl mx-auto px-4 text-center scroll-hidden">
-    <h2 class="font-serif text-4xl mb-4 italic text-center text-yellow-700">Conferma la tua presenza</h2>
+<section id="rsvp" class="py-24 max-w-3xl mx-auto px-4 text-center scroll-hidden">
+    <h2 class="font-serif text-4xl mb-4 italic text-yellow-700">Conferma la tua presenza</h2>
     <p class="text-gray-500 uppercase tracking-widest text-sm mb-12">Entro il 10 Luglio 2026</p>
+    
+    <form action="https://formspree.io/f/xzdjqrbv" method="POST" id="rsvp-form" class="card p-8 space-y-10 text-center">
         
-<!-- LOGISTICA GENERALE -->
-        <div class="pt-8 border-t border-gray-100 space-y-8">
-            <!-- Partecipazione e Numero Ospiti -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Parteciperai?</label>
-                    <select name="Partecipazione" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
-                        <option value="Sì">Sì</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
-         <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Numero Totale Ospiti</label>
-                    <input type="number" name="Numero_Ospiti" min="0" max="5" value="1" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Parteciperai?</label>
+                <select name="Partecipazione" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-center">
+                    <option value="Sì">Sì, con piacere</option>
+                    <option value="No">No, a malincuore</option>
+                </select>
             </div>
-        <!-- BLOCCO INVITATO PRINCIPALE -->
-        <div class="bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Numero Totale Ospiti</label>
+                <input type="number" name="Numero_Ospiti" min="1" max="10" value="1" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-center">
+            </div>
+        </div>
+
+        <div class="bg-gray-50/50 p-6 rounded-2xl border border-gray-100 text-center">
             <p class="text-[10px] font-bold text-yellow-700 uppercase tracking-[0.2em] mb-4">Invitato Principale</p>
             <div class="grid grid-cols-1 gap-6">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Nome e Cognome</label>
-                    <input type="text" name="Nominativo" required class="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Nome e Cognome</label>
+                    <input type="text" name="Nominativo" required class="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-center">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Tipologia</label>
-                        <div class="flex items-center space-x-6 py-3">
+                        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Tipologia</label>
+                        <div class="flex items-center justify-center space-x-6 py-3">
                             <label class="flex items-center cursor-pointer text-sm">
                                 <input type="radio" name="Tipo_Principale" value="Adulto" class="w-4 h-4 accent-yellow-700 mr-2"> Adulto
                             </label>
@@ -307,192 +305,80 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Intolleranze / Allergie</label>
-                        <select name="Menu_Principale" class="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                        <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Intolleranze / Allergie</label>
+                        <select name="Menu_Principale" class="w-full border-b-2 border-gray-200 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-center">
                             <option value="">Scegli preferenza...</option>
                             <option value="glutine">Glutine</option>
                             <option value="lattosio">Lattosio</option>
                             <option value="glutine+lattosio">Glutine + Lattosio</option>
-                            <option value="altro">altro (scrivi nelle note)</option>
-                            <option value="nessuna">nessuna</option>
+                            <option value="altro">Altro (scrivi nelle note)</option>
+                            <option value="nessuna">Nessuna</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SEZIONE ACCOMPAGNATORI -->
         <div class="space-y-6">
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-2">Eventuali Accompagnatori</p>
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Eventuali Accompagnatori</p>
             
-            <!-- Ciclo per 5 accompagnatori -->
             <div class="grid grid-cols-1 gap-4">
-                <!-- ACCOMPAGNATORE 1 -->
                 <div class="p-4 border border-gray-100 rounded-xl hover:border-yellow-100 transition">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="md:col-span-1">
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome Accompagnatore 1</label>
-                            <input type="text" name="Accompagnatore_1" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
+                        <div>
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1 text-center">Nome Accompagnatore 1</label>
+                            <input type="text" name="Accompagnatore_1" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-center">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tipologia</label>
-                            <div class="flex items-center space-x-4 py-2">
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1 text-center">Tipologia</label>
+                            <div class="flex items-center justify-center space-x-4 py-2 text-center">
                                 <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_1" value="Adulto" class="mr-1 accent-yellow-700"> Adulto</label>
                                 <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_1" value="Bambino" class="mr-1 accent-yellow-700"> Bambino</label>
                             </div>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Allergie</label>
-                            <select name="Menu_Accompagnatore_1" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-sm">
+                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1 text-center">Allergie</label>
+                            <select name="Menu_Accompagnatore_1" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-sm text-center">
                                 <option value="">Scegli...</option>
                                 <option value="glutine">Glutine</option>
                                 <option value="lattosio">Lattosio</option>
                                 <option value="glutine+lattosio">Glutine+Lattosio</option>
-                                <option value="nessuna">nessuna</option>
+                                <option value="nessuna">Nessuna</option>
                             </select>
                         </div>
                     </div>
                 </div>
-
-                <!-- ACCOMPAGNATORE 2 -->
-                <div class="p-4 border border-gray-100 rounded-xl hover:border-yellow-100 transition">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome Accompagnatore 2</label>
-                            <input type="text" name="Accompagnatore_2" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tipologia</label>
-                            <div class="flex items-center space-x-4 py-2">
-                                <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_2" value="Adulto" class="mr-1 accent-yellow-700"> Adulto</label>
-                                <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_2" value="Bambino" class="mr-1 accent-yellow-700"> Bambino</label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Allergie</label>
-                            <select name="Menu_Accompagnatore_2" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-sm">
-                                <option value="">Scegli...</option>
-                                <option value="glutine">Glutine</option>
-                                <option value="lattosio">Lattosio</option>
-                                <option value="glutine+lattosio">Glutine+Lattosio</option>
-                                <option value="nessuna">nessuna</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
-
-                <!-- ACCOMPAGNATORE 3 -->
-                <div class="p-4 border border-gray-100 rounded-xl hover:border-yellow-100 transition">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome Accompagnatore 3</label>
-                            <input type="text" name="Accompagnatore_3" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tipologia</label>
-                            <div class="flex items-center space-x-4 py-2">
-                                <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_3" value="Adulto" class="mr-1 accent-yellow-700"> Adulto</label>
-                                <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_3" value="Bambino" class="mr-1 accent-yellow-700"> Bambino</label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Allergie</label>
-                            <select name="Menu_Accompagnatore_3" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-sm">
-                                <option value="">Scegli...</option>
-                                <option value="glutine">Glutine</option>
-                                <option value="lattosio">Lattosio</option>
-                                <option value="glutine+lattosio">Glutine+Lattosio</option>
-                                <option value="nessuna">nessuna</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ACCOMPAGNATORE 4 -->
-                <div class="p-4 border border-gray-100 rounded-xl hover:border-yellow-100 transition">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome Accompagnatore 4</label>
-                            <input type="text" name="Accompagnatore_4" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tipologia</label>
-                            <div class="flex items-center space-x-4 py-2">
-                                <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_4" value="Adulto" class="mr-1 accent-yellow-700"> Adulto</label>
-                                <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_4" value="Bambino" class="mr-1 accent-yellow-700"> Bambino</label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Allergie</label>
-                            <select name="Menu_Accompagnatore_4" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-sm">
-                                <option value="">Scegli...</option>
-                                <option value="glutine">Glutine</option>
-                                <option value="lattosio">Lattosio</option>
-                                <option value="glutine+lattosio">Glutine+Lattosio</option>
-                                <option value="nessuna">nessuna</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ACCOMPAGNATORE 5 -->
-                <div class="p-4 border border-gray-100 rounded-xl hover:border-yellow-100 transition">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nome Accompagnatore 5</label>
-                            <input type="text" name="Accompagnatore_5" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Tipologia</label>
-                            <div class="flex items-center space-x-4 py-2">
-                                <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_5" value="Adulto" class="mr-1 accent-yellow-700"> Adulto</label>
-                                <label class="flex items-center text-xs"><input type="radio" name="Tipo_Accompagnatore_5" value="Bambino" class="mr-1 accent-yellow-700"> Bambino</label>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Allergie</label>
-                            <select name="Menu_Accompagnatore_5" class="w-full border-b border-gray-200 py-2 focus:outline-none focus:border-yellow-600 bg-transparent text-sm">
-                                <option value="">Scegli...</option>
-                                <option value="glutine">Glutine</option>
-                                <option value="lattosio">Lattosio</option>
-                                <option value="glutine+lattosio">Glutine+Lattosio</option>
-                                <option value="nessuna">nessuna</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
-            <!-- Date Viaggio -->
+        <div class="pt-8 border-t border-gray-100 space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Data di Arrivo</label>
-                    <input type="date" name="Data_Arrivo" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Data di Arrivo</label>
+                    <input type="date" name="Data_Arrivo" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-center">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Data di Partenza</label>
-                    <input type="date" name="Data_Partenza" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Data di Partenza</label>
+                    <input type="date" name="Data_Partenza" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-center">
                 </div>
             </div>
 
-            <!-- Mezzi e Luoghi -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Mezzo</label>
-                    <select name="Mezzo_Trasporto" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Mezzo</label>
+                    <select name="Mezzo_Trasporto" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-center">
                         <option value="mezzo proprio">Mezzo proprio</option>
                         <option value="treno">Treno</option>
                         <option value="aereo">Aereo</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Orario Arrivo</label>
-                    <input type="text" name="Orario_Arrivo" placeholder="es. 15:30" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Orario Arrivo</label>
+                    <input type="text" name="Orario_Arrivo" placeholder="es. 15:30" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-center">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Luogo Arrivo</label>
-                    <select name="Luogo_Arrivo" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Luogo Arrivo</label>
+                    <select name="Luogo_Arrivo" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition text-sm text-center">
                         <option value="stazione_sibari">Stazione Sibari</option>
                         <option value="aeroporto_crotone">Aeroporto Crotone</option>
                         <option value="aeroporto_lamezia">Aeroporto Lamezia</option>
@@ -503,16 +389,15 @@
                 </div>
             </div>
 
-            <!-- Note Finali -->
             <div>
-                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Note Extra (Allergie specifiche, canzoni...)</label>
-                <textarea name="Messaggio" rows="3" placeholder="Il menù sarà a base di pesce, segnalaci qui se hai altre necessità." class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition italic text-sm"></textarea>
+                <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400 text-center">Note Extra</label>
+                <textarea name="Messaggio" rows="3" placeholder="Scrivi qui eventuali allergie specifiche o note per noi..." class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition italic text-sm text-center"></textarea>
             </div>
         </div>
 
         <button type="submit" class="w-full bg-yellow-700 text-white py-5 rounded-xl uppercase font-bold tracking-[0.2em] hover:bg-yellow-800 transition shadow-xl shadow-yellow-700/20">Invia Conferma</button>
     </form>
-    </section>
+</section>
 
     <section id="regalo" class="py-24 bg-white text-center px-4 scroll-hidden">
         <i data-lucide="plane" class="mx-auto mb-6 text-yellow-600 w-10 h-10"></i>
