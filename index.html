@@ -468,7 +468,10 @@
             document.body.classList.remove('no-scroll');
         }
         function closeModal() {
-            document.getElementById('modal').classList.replace('flex', 'hidden');
+    // 1. Nascondiamo il popup
+    document.getElementById('modal').classList.replace('flex', 'hidden');
+    // 2. Sblocchiamo lo scorrimento della pagina (Questa è la riga che mancava!)
+    document.body.classList.remove('no-scroll');
         }
 
         // Funzione Copia IBAN
