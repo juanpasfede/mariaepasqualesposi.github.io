@@ -269,7 +269,23 @@
     <p class="text-gray-500 uppercase tracking-widest text-sm mb-12">Entro il 10 Luglio 2026</p>
     
     <form action="https://formspree.io/f/xzdjqrbv" method="POST" id="rsvp-form" class="card p-6 md:p-10 space-y-10 text-left">
+        <!-- LOGISTICA GENERALE -->
         
+        <div class="pt-8 border-t border-gray-100 space-y-8">
+            <!-- Partecipazione e Numero Ospiti -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Parteciperai?</label>
+                    <select name="Partecipazione" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                        <option value="Sì">Sì</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+         <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Numero Totale Ospiti</label>
+                    <input type="number" name="Numero_Ospiti" min="1" value="1" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
+                </div>
+            </div>
         <!-- BLOCCO INVITATO PRINCIPALE -->
         <div class="bg-gray-50/50 p-6 rounded-2xl border border-gray-100">
             <p class="text-[10px] font-bold text-yellow-700 uppercase tracking-[0.2em] mb-4">Invitato Principale</p>
@@ -441,23 +457,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- LOGISTICA GENERALE -->
-        <div class="pt-8 border-t border-gray-100 space-y-8">
-            <!-- Partecipazione e Numero Ospiti -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Parteciperai?</label>
-                    <select name="Partecipazione" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
-                        <option value="Sì">Sì, con piacere</option>
-                        <option value="No">No, a malincuore</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest mb-2 text-gray-400">Numero Totale Ospiti</label>
-                    <input type="number" name="Numero_Ospiti" min="1" value="1" class="w-full border-b-2 border-gray-100 py-3 focus:outline-none focus:border-yellow-600 bg-transparent transition">
-                </div>
-            </div>
 
             <!-- Date Viaggio -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
