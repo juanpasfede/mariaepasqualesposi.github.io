@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist di Nozze - Maria & Pasquale</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root { --primary: #d4af37; --secondary: #fdfbf7; --text: #2c3e50; }
+        body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); min-height: 100vh; display: flex; flex-col; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-cursive { font-family: 'Great Vibes', cursive; }
+    </style>
+</head>
+<body class="flex flex-col">
+
+    <nav class="p-6">
+        <a href="index.html" class="inline-flex items-center text-yellow-700 font-bold uppercase tracking-widest text-[10px] hover:opacity-70 transition">
+            <i data-lucide="arrow-left" class="mr-2 w-4 h-4"></i> Torna al sito
+        </a>
+    </nav>
+
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-8 text-center max-w-2xl mx-auto">
+        <div class="mb-8">
+            <i data-lucide="music-4" class="mx-auto mb-6 text-yellow-600 w-12 h-12"></i>
+            <h1 class="font-serif text-5xl md:text-6xl mb-4 italic text-yellow-700">Wedding Playlist</h1>
+            <p class="text-gray-500 uppercase tracking-[0.3em] text-[10px] font-bold mb-8">Maria & Pasquale — 25.07.2026</p>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-yellow-700/5 border border-yellow-100 mb-10 w-full">
+            <p class="text-gray-600 mb-8 italic leading-relaxed">
+                Aiutaci ad animare la festa! 
+                Clicca il pulsante qui sotto per aprire la nostra playlist collaborativa su Spotify e aggiungi i brani che ci faranno ballare tutta la notte.
+            </p>
+
+            <a href="https://open.spotify.com/playlist/2uQyXA3yLlbiWyoCBNBFZt?si=-PVRwI_gQA2cSZlougbn2A&pt=3463b96f84fac78b786934969593a82d&pi=d6rJQFL6TfSE6" target="_blank" class="flex items-center justify-center w-full bg-[#1DB954] text-white py-4 rounded-full font-bold uppercase tracking-widest hover:scale-105 transition-transform shadow-lg mb-4">
+                <i data-lucide="plus-circle" class="mr-2 w-5 h-5"></i> Aggiungi un brano
+            </a>
+            <p class="text-[9px] text-gray-400 uppercase tracking-widest font-bold">Richiede l'app di Spotify</p>
+        </div>
+
+        <div class="w-full">
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Brani già scelti</p>
+            <iframe style="border-radius:20px" src="https://open.spotify.com/embed/playlist/2uQyXA3yLlbiWyoCBNBFZt?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </main>
+
+    <footer class="p-8 text-center opacity-40">
+        <p class="font-cursive text-2xl text-yellow-700">M & P</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
