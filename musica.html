@@ -9,17 +9,25 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root { --primary: #d4af37; --secondary: #fdfbf7; --text: #2c3e50; }
-        body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); min-height: 100vh; display: flex; flex-col; }
+        body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); min-height: 100vh; display: flex; flex-direction: column; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-cursive { font-family: 'Great Vibes', cursive; }
     </style>
 </head>
 <body class="flex flex-col">
 
-    <nav class="p-6">
-        <a href="index.html" class="inline-flex items-center text-yellow-700 font-bold uppercase tracking-widest text-[10px] hover:opacity-70 transition">
-            <i data-lucide="arrow-left" class="mr-2 w-4 h-4"></i> Torna al sito
+    <nav class="w-full p-6 flex justify-between items-center max-w-7xl mx-auto">
+        <a href="index.html" class="inline-flex items-center text-yellow-700 font-bold uppercase tracking-widest text-[10px] md:text-xs hover:opacity-70 transition">
+            <i data-lucide="arrow-left" class="mr-2 w-4 h-4"></i>
+            <span data-i18n="nav_back_site">Torna al sito</span>
         </a>
+        
+        <div class="flex space-x-3 text-[10px] md:text-xs font-bold text-gray-800">
+            <button onclick="selectLanguage('it')" class="hover:text-yellow-700 transition outline-none">IT</button>
+            <button onclick="selectLanguage('en')" class="hover:text-yellow-700 transition outline-none">EN</button>
+            <button onclick="selectLanguage('es')" class="hover:text-yellow-700 transition outline-none">ES</button>
+            <button onclick="selectLanguage('fr')" class="hover:text-yellow-700 transition outline-none">FR</button>
+        </div>
     </nav>
 
     <main class="flex-grow flex flex-col items-center justify-center px-4 py-8 text-center max-w-2xl mx-auto">
@@ -30,21 +38,22 @@
         </div>
 
         <div class="bg-white p-8 rounded-3xl shadow-xl shadow-yellow-700/5 border border-yellow-100 mb-10 w-full">
-            <p class="text-gray-600 mb-8 italic leading-relaxed">
+            <p class="text-gray-600 mb-8 italic leading-relaxed" data-i18n="music_p1">
                 Aiutaci ad animare la festa! 
             </p>
-            <p class="text-gray-600 mb-3 italic leading-relaxed">
+            <p class="text-gray-600 mb-3 italic leading-relaxed" data-i18n="music_p2">
                 Clicca il pulsante qui sotto per aprire la nostra playlist collaborativa su Spotify e aggiungi i brani che ci faranno ballare tutta la notte!
             </p>
 
             <a href="https://open.spotify.com/playlist/2uQyXA3yLlbiWyoCBNBFZt?si=-PVRwI_gQA2cSZlougbn2A&pt=3463b96f84fac78b786934969593a82d&pi=d6rJQFL6TfSE6" target="_blank" class="flex items-center justify-center w-full bg-[#1DB954] text-white py-4 rounded-full font-bold uppercase tracking-widest hover:scale-105 transition-transform shadow-lg mb-4">
-                <i data-lucide="plus-circle" class="mr-2 w-5 h-5"></i> Aggiungi un brano
+                <i data-lucide="plus-circle" class="mr-2 w-5 h-5"></i> 
+                <span data-i18n="music_btn">Aggiungi un brano</span>
             </a>
-            <p class="text-[9px] text-gray-400 uppercase tracking-widest font-bold">Richiede l'app di Spotify</p>
+            <p class="text-[9px] text-gray-400 uppercase tracking-widest font-bold" data-i18n="music_req">Richiede l'app di Spotify</p>
         </div>
 
         <div class="w-full">
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Brani già scelti</p>
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4" data-i18n="music_chosen">Brani già scelti</p>
             <iframe style="border-radius:20px" src="https://open.spotify.com/embed/playlist/2uQyXA3yLlbiWyoCBNBFZt?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
     </main>
@@ -54,7 +63,60 @@
     </footer>
 
     <script>
-        lucide.createIcons();
+        const translations = {
+            it: {
+                nav_back_site: "Torna al sito",
+                music_p1: "Aiutaci ad animare la festa!",
+                music_p2: "Clicca il pulsante qui sotto per aprire la nostra playlist collaborativa su Spotify e aggiungi i brani che ci faranno ballare tutta la notte!",
+                music_btn: "Aggiungi un brano",
+                music_req: "Richiede l'app di Spotify",
+                music_chosen: "Brani già scelti"
+            },
+            en: {
+                nav_back_site: "Back to website",
+                music_p1: "Help us liven up the party!",
+                music_p2: "Click the button below to open our collaborative Spotify playlist and add the tracks that will make us dance all night!",
+                music_btn: "Add a song",
+                music_req: "Requires the Spotify app",
+                music_chosen: "Already chosen tracks"
+            },
+            es: {
+                nav_back_site: "Volver al sitio",
+                music_p1: "¡Ayúdanos a animar la fiesta!",
+                music_p2: "¡Haz clic en el botón de abajo para abrir nuestra lista de reproducción colaborativa en Spotify y añade las canciones que nos harán bailar toda la noche!",
+                music_btn: "Añadir una canción",
+                music_req: "Requiere la app de Spotify",
+                music_chosen: "Canciones ya elegidas"
+            },
+            fr: {
+                nav_back_site: "Retour au site",
+                music_p1: "Aidez-nous à animer la fête !",
+                music_p2: "Cliquez sur le bouton ci-dessous pour ouvrir notre playlist collaborative sur Spotify et ajoutez les morceaux qui nous feront danser toute la nuit !",
+                music_btn: "Ajouter une chanson",
+                music_req: "Nécessite l'application Spotify",
+                music_chosen: "Morceaux déjà choisis"
+            }
+        };
+
+        function changeLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        function selectLanguage(lang) {
+            changeLanguage(lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            const savedLang = localStorage.getItem('preferredLang') || 'it';
+            changeLanguage(savedLang);
+        });
     </script>
 </body>
 </html>
