@@ -22,18 +22,28 @@
 <body>
 
     <nav class="fixed w-full z-50 bg-[#fdfbf7] shadow-md">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center bg-[#fdfbf7]">
-            <a href="index.html" class="flex items-center text-yellow-700 hover:text-yellow-800 transition">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 h-20 flex justify-between items-center bg-[#fdfbf7]">
+            
+            <a href="index.html" class="flex items-center text-yellow-700 hover:text-yellow-800 transition w-1/3">
                 <i data-lucide="arrow-left" class="w-5 h-5 mr-2"></i>
-                <span class="uppercase tracking-widest text-xs font-bold">Torna alla Home</span>
+                <span class="uppercase tracking-widest text-[10px] md:text-xs font-bold hidden sm:inline" data-i18n="nav_back_home">Torna alla Home</span>
+                <span class="uppercase tracking-widest text-[10px] font-bold sm:hidden" data-i18n="nav_back_home_short">Home</span>
             </a>
-            <span class="font-cursive text-3xl text-yellow-700">M & P</span>
+            
+            <span class="font-cursive text-3xl text-yellow-700 text-center w-1/3">M & P</span>
+            
+            <div class="flex justify-end space-x-2 md:space-x-3 text-[10px] md:text-xs font-bold w-1/3">
+                <button onclick="selectLanguage('it')" class="hover:text-yellow-700 transition outline-none">IT</button>
+                <button onclick="selectLanguage('en')" class="hover:text-yellow-700 transition outline-none">EN</button>
+                <button onclick="selectLanguage('es')" class="hover:text-yellow-700 transition outline-none">ES</button>
+                <button onclick="selectLanguage('fr')" class="hover:text-yellow-700 transition outline-none">FR</button>
+            </div>
         </div>
     </nav>
 
     <section class="pt-32 pb-12 text-center px-4">
-        <h1 class="text-yellow-700 font-serif text-4xl italic mb-4">I Nostri Ricordi</h1>
-        <p class="text-gray-600 italic">I momenti più belli della nostra storia, aspettando il grande giorno.</p>
+        <h1 class="text-yellow-700 font-serif text-4xl italic mb-4" data-i18n="gallery_title">I Nostri Ricordi</h1>
+        <p class="text-gray-600 italic" data-i18n="gallery_desc">I momenti più belli della nostra storia, aspettando il grande giorno.</p>
     </section>
 
     <main class="max-w-7xl mx-auto px-4 pb-24">
@@ -41,7 +51,7 @@
             </div>
     </main>
 
-<div id="lightbox" class="fixed top-0 left-0 w-screen h-[100dvh] z-[100] bg-black/95 hidden flex-col items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+    <div id="lightbox" class="fixed top-0 left-0 w-screen h-[100dvh] z-[100] bg-black/95 hidden flex-col items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0">
         <button id="close-btn" class="absolute top-6 right-6 text-white hover:text-yellow-500 transition z-50">
             <i data-lucide="x" class="w-10 h-10"></i>
         </button>
@@ -56,15 +66,61 @@
         </div>
     </div>
 
+
+    <script>
+        const translations = {
+            it: {
+                nav_back_home: "Torna alla Home",
+                nav_back_home_short: "Home",
+                gallery_title: "I Nostri Ricordi",
+                gallery_desc: "I momenti più belli della nostra storia, aspettando il grande giorno."
+            },
+            en: {
+                nav_back_home: "Back to Home",
+                nav_back_home_short: "Home",
+                gallery_title: "Our Memories",
+                gallery_desc: "The most beautiful moments of our story, waiting for the big day."
+            },
+            es: {
+                nav_back_home: "Volver al Inicio",
+                nav_back_home_short: "Inicio",
+                gallery_title: "Nuestros Recuerdos",
+                gallery_desc: "Los momentos más hermosos de nuestra historia, esperando el gran día."
+            },
+            fr: {
+                nav_back_home: "Retour à l'Accueil",
+                nav_back_home_short: "Accueil",
+                gallery_title: "Nos Souvenirs",
+                gallery_desc: "Les plus beaux moments de notre histoire, en attendant le grand jour."
+            }
+        };
+
+        function changeLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        function selectLanguage(lang) {
+            changeLanguage(lang);
+        }
+
+        // Avvio lingua automatica
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLang') || 'it';
+            changeLanguage(savedLang);
+        });
+    </script>
+
+
     <script type="module">
-        // 1. Importiamo gli strumenti di Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-        // ==========================================
-        // 2. INCOLLA QUI IL TUO FIREBASE CONFIG
-        // Sostituisci questo blocco con i tuoi dati esatti
-        // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyDFKvgs8IV5gg_5fc9T_NUa8gWeUZa9QQg",
             authDomain: "matrimonio-gallery.firebaseapp.com",
@@ -75,7 +131,6 @@
             measurementId: "G-0ZQQ7ZPDJZ"
         };
 
-        // Inizializziamo l'app e il database
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
@@ -85,18 +140,15 @@
         const lightboxHeartBtn = document.getElementById('lightbox-heart-btn');
         const lightboxCount = document.getElementById('lightbox-count');
 
-        // Definizione funzione Lightbox
         function openLightbox(imageSrc, gridHeartBtn, gridCountSpan) {
-            if (!gridHeartBtn || !gridCountSpan) return; // Sicurezza extra
+            if (!gridHeartBtn || !gridCountSpan) return; 
 
             lightboxImg.src = imageSrc;
             lightbox.classList.remove('hidden');
             lightbox.classList.add('flex');
             
-            // Sincronizza numero
             lightboxCount.innerText = gridCountSpan.innerText;
             
-            // Sincronizza Icona
             const gridIcon = gridHeartBtn.querySelector('svg');
             const lightboxIcon = lightboxHeartBtn.querySelector('svg');
             
@@ -109,7 +161,6 @@
                 }
             }
 
-            // Telecomando: clicca il tasto della griglia
             lightboxHeartBtn.onclick = (e) => {
                 e.stopPropagation();
                 gridHeartBtn.click();
@@ -143,7 +194,6 @@
         closeBtn.onclick = closeLightbox;
         lightbox.onclick = (e) => { if (e.target === lightbox) closeLightbox(); };
 
-        // Creazione Griglia
         const grid = document.getElementById('masonry-grid');
         const totalImages = 85; 
 
@@ -166,7 +216,6 @@
             countSpan.className = "text-sm font-bold text-gray-700";
             countSpan.innerText = "0";
 
-            // Colleghiamo il lightbox passandogli ESATTAMENTE questi elementi creati ora
             img.onclick = () => openLightbox(img.src, heartBtn, countSpan);
 
             reactBar.appendChild(heartBtn);
