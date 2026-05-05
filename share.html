@@ -58,9 +58,8 @@
                     "Catturate la magia di questi istanti insieme a noi."
                 </p>
                 <p class="text-gray-500 text-sm md:text-base leading-relaxed">
-                    Ogni vostro scatto è un pezzo del nostro puzzle. Caricate qui le vostre foto: 
-                    appariranno <b>istantaneamente sulla bacheca</b> per condividerle con tutti 
-                    e verranno salvate nel nostro <b>album dei ricordi privato</b>.
+                    Caricate qui le vostre foto e video: i video saranno conservati nel nostro album privato, 
+                    mentre le foto appariranno <b>istantaneamente sulla bacheca</b> restando disponibili a tutti</b>.
                 </p>
             </div>
         </div>
@@ -70,7 +69,7 @@
                 <div class="border-2 border-dashed border-yellow-200 rounded-2xl py-12 group-hover:border-yellow-400 transition-colors">
                     <div id="upload-ui">
                         <i data-lucide="upload-cloud" class="mx-auto mb-4 text-yellow-600 w-12 h-12 group-hover:scale-110 transition-transform"></i>
-                        <p class="text-sm font-bold uppercase tracking-widest text-gray-700 mb-2">Tocca per scattare o scegliere</p>
+                        <p class="text-sm font-bold uppercase tracking-widest text-gray-700 mb-2">Tocca per scattare o scegliere i media</p>
                         <p class="text-[10px] text-gray-400 uppercase">Originale a noi, veloce per la bacheca</p>
                     </div>
                     
@@ -81,7 +80,7 @@
                         <p class="text-xs font-bold text-yellow-700 uppercase animate-pulse">Ottimizzazione e invio in corso...</p>
                     </div>
                 </div>
-                <input id="photo-input" type="file" class="hidden" accept="image/*" />
+                <input id="photo-input" type="file" class="hidden" accept="image/*,video/*" />
             </label>
         </div>
 
@@ -148,66 +147,76 @@
             uploadStatus.classList.remove('hidden');
             progressBar.style.width = '5%';
 
-            // 1. INVIO ORIGINALE A GOOGLE DRIVE IN SILENZIO
+            const isImage = file.type.startsWith('image/');
+            const isVideo = file.type.startsWith('video/');
+
+            // --- 1. INVIO SEMPRE A GOOGLE DRIVE (FOTO E VIDEO) ---
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = async () => {
                 const base64 = reader.result.split(',')[1];
                 try {
-                    fetch(APPS_SCRIPT_URL, {
+                    await fetch(APPS_SCRIPT_URL, {
                         method: "POST",
                         mode: "no-cors", 
                         headers: { "Content-Type": "text/plain;charset=utf-8" },
                         body: JSON.stringify({ base64: base64, type: file.type, name: file.name })
                     });
-                } catch (err) { console.error("Errore Drive:", err); }
-            };
-
- // 2. COMPRESSIONE E INVIO A FIREBASE PER LA BACHECA
-            const options = {
-                maxSizeMB: 2, // Alziamo a 1MB per far faticare meno il telefono
-                maxWidthOrHeight: 1920,
-                useWebWorker: true
-            };
-
-            let fileToUpload = file; // Di base, prepariamo il file originale
-
-            try {
-                // Tentiamo la compressione
-                fileToUpload = await imageCompression(file, options);
-            } catch (error) {
-                console.warn("Compressione fallita (memoria telefono), procedo con originale.");
-                // Se la compressione fallisce, fileToUpload rimane l'originale, quindi non si blocca!
-            }
-
-            try {
-                const fileName = `${Date.now()}_wall.jpg`;
-                const storageRef = ref(storage, `live_wall/${fileName}`);
-                // Usiamo fileToUpload (compresso se ci è riuscito, originale se ha fallito)
-                const uploadTask = uploadBytesResumable(storageRef, fileToUpload);
-
-                uploadTask.on('state_changed',
-                    (snapshot) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        progressBar.style.width = Math.max(progress, 15) + '%';
-                    }, 
-                    (error) => {
-                        alert("Errore caricamento. Riprova.");
-                        resetUploadUI();
-                    }, 
-                    () => {
-                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                            addDoc(collection(db, "live_wall"), {
-                                url: downloadURL,
-                                timestamp: Date.now()
-                            });
-                            resetUploadUI();
-                        });
+                    
+                    // Se è un video, il lavoro finisce qui (per Drive)
+                    if (isVideo) {
+                        progressBar.style.width = '100%';
+                        document.getElementById('status-text').innerText = "Video inviato a Drive!";
+                        setTimeout(() => resetUploadUI(), 2000);
                     }
-                );
-            } catch (error) {
-                console.error("Errore compressione:", error);
-                resetUploadUI();
+                } catch (err) { 
+                    console.error("Errore Drive:", err); 
+                }
+            };
+
+            // --- 2. LOGICA FIREBASE (SOLO SE È UNA FOTO) ---
+            if (isImage) {
+                const options = {
+                    maxSizeMB: 1,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true
+                };
+
+                let fileToUpload = file;
+                try {
+                    fileToUpload = await imageCompression(file, options);
+                } catch (error) {
+                    console.warn("Compressione fallita, uso originale");
+                }
+
+                try {
+                    const fileName = `${Date.now()}_wall.jpg`;
+                    const storageRef = ref(storage, `live_wall/${fileName}`);
+                    const uploadTask = uploadBytesResumable(storageRef, fileToUpload);
+
+                    uploadTask.on('state_changed', 
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            progressBar.style.width = Math.max(progress, 15) + '%';
+                        }, 
+                        (error) => {
+                            alert("Errore bacheca: " + error.code);
+                            resetUploadUI();
+                        }, 
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                addDoc(collection(db, "live_wall"), {
+                                    url: downloadURL,
+                                    timestamp: Date.now()
+                                });
+                                resetUploadUI();
+                            });
+                        }
+                    );
+                } catch (error) {
+                    console.error("Errore Firebase:", error);
+                    resetUploadUI();
+                }
             }
         };
 
