@@ -114,7 +114,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+        import { getFirestore, collection, doc, setDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
         // TUE CHIAVI ORIGINALI INSERITE QUI:
@@ -315,15 +315,18 @@
                             // Tag cronologico automatico come backup
                             const autoCategory = getAutoTag(file); 
                             
-                            addDoc(collection(db, "live_wall"), {
+                            // Prepariamo un ID che l'IA di Google possa riconoscere (es. 12345_wall_jpg)
+                            const docId = fileName.replace(/\./g, '_');
+                            
+                            // Usiamo setDoc invece di addDoc per forzare l'ID col nome del file
+                            await setDoc(doc(db, "live_wall", docId), {
                                 url: downloadURL,
                                 timestamp: Date.now(),
-                                // Dati EXIF appena estratti
                                 exifDate: exifData.originalDate,
                                 location: exifData.location,
                                 orientation: exifData.orientation,
-                                // Tag orario
                                 category: autoCategory
+                                // Qui l'estensione Firebase scriverà il campo "labels" in automatico
                             });
                             
                             statusText.innerText = "Fatto!";
