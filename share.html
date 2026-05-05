@@ -103,10 +103,10 @@
 
         <img id="modal-img" src="" class="max-w-full max-h-[75vh] rounded-lg shadow-2xl object-contain">
 
-        <a id="modal-download" href="" download target="_blank" class="mt-8 bg-yellow-700 text-white px-8 py-4 rounded-full flex items-center gap-3 uppercase text-xs font-bold tracking-widest hover:bg-yellow-800 transition shadow-lg">
+        <button id="modal-download" onclick="downloadImage(event)" class="mt-8 bg-yellow-700 text-white px-8 py-4 rounded-full flex items-center gap-3 uppercase text-xs font-bold tracking-widest hover:bg-yellow-800 transition shadow-lg">
             <i data-lucide="download" class="w-5 h-5"></i>
             Scarica Foto
-        </a>
+        </button>
     </div>
 
     <script type="module">
@@ -232,9 +232,12 @@
         });
 
         // FUNZIONI GLOBALI PER APRIRE/CHIUDERE ANTEPRIMA
+        // FUNZIONI GLOBALI PER APRIRE/CHIUDERE E SCARICARE ANTEPRIMA
+        let currentPhotoUrl = "";
+
         window.openPreview = function(url) {
+            currentPhotoUrl = url;
             document.getElementById('modal-img').src = url;
-            document.getElementById('modal-download').href = url;
             document.getElementById('preview-modal').classList.replace('hidden', 'flex');
             document.body.style.overflow = 'hidden';
         };
@@ -242,6 +245,37 @@
         window.closePreview = function() {
             document.getElementById('preview-modal').classList.replace('flex', 'hidden');
             document.body.style.overflow = 'auto';
+        };
+
+        window.downloadImage = async function(event) {
+            if (!currentPhotoUrl) return;
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            
+            try {
+                btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Scaricamento...`;
+                lucide.createIcons();
+                
+                const response = await fetch(currentPhotoUrl);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `matrimonio-foto-${Date.now()}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                window.URL.revokeObjectURL(blobUrl);
+                btn.innerHTML = originalText;
+                lucide.createIcons();
+            } catch (error) {
+                console.error("Download forzato fallito, apro in nuova scheda", error);
+                window.open(currentPhotoUrl, '_blank');
+                btn.innerHTML = originalText;
+                lucide.createIcons();
+            }
         };
 
     </script>
