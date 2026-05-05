@@ -181,17 +181,6 @@
             });
         }
 
-        // Funzione per il tag orario automatico (se EXIF non disponibile)
-        function getAutoTag(file) {
-            const photoDate = new Date(file.lastModified);
-            const hour = photoDate.getHours();
-            if (hour >= 9 && hour < 15) return "preparativi";
-            else if (hour >= 15 && hour < 18) return "cerimonia";
-            else if (hour >= 18 && hour < 21) return "aperitivo";
-            else if (hour >= 21 || hour < 4) return "festa";
-            else return "generale";
-        }
-        
         // LOGICA DI CARICAMENTO AVANZATA (Video, HEIC, RAW, Foto)
         photoInput.onchange = async (e) => {
             const file = e.target.files[0];
