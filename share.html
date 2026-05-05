@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    <!-- Libreria per convertire i file HEIC degli iPhone -->
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
     <style>
         :root { --primary: #d4af37; --secondary: #fdfbf7; --text: #2c3e50; }
         body { font-family: 'Lato', sans-serif; color: var(--text); background-color: var(--secondary); min-height: 100vh; }
@@ -77,10 +79,10 @@
                         <div class="w-full bg-gray-100 rounded-full h-3 mb-3">
                             <div id="progress-bar" class="bg-yellow-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
                         </div>
-                        <p class="text-xs font-bold text-yellow-700 uppercase animate-pulse">Ottimizzazione e invio in corso...</p>
+                        <p id="status-text" class="text-xs font-bold text-yellow-700 uppercase animate-pulse">Analisi file in corso...</p>
                     </div>
                 </div>
-                <input id="photo-input" type="file" class="hidden" accept="image/*,video/*" />
+                <input id="photo-input" type="file" class="hidden" accept="image/*,video/*,.heic,.heif,.raw,.cr2,.nef,.arw,.dng" />
             </label>
         </div>
 
@@ -112,6 +114,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
         // TUE CHIAVI ORIGINALI INSERITE QUI:
         const firebaseConfig = {
@@ -130,14 +133,147 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
+        const auth = getAuth(app);
         lucide.createIcons();
+
+        // Autenticazione Anonima per permettere caricamenti da mobile
+        signInAnonymously(auth).catch((error) => console.error("Errore Auth:", error));
 
         const photoInput = document.getElementById('photo-input');
         const progressBar = document.getElementById('progress-bar');
         const uploadStatus = document.getElementById('upload-status');
         const uploadUI = document.getElementById('upload-ui');
         const liveGrid = document.getElementById('live-grid');
+        const statusText = document.getElementById('status-text');
 
+        // LOGICA DI CARICAMENTO AVANZATA (Video, HEIC, RAW, Foto)
+        photoInput.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Riconoscimento avanzato dei tipi di file
+            const isHeic = file.name.toLowerCase().endsWith('.heic') || file.type === 'image/heic' || file.type === 'image/heif';
+            const isRaw = file.name.toLowerCase().match(/\.(raw|cr2|nef|arw|dng)$/i);
+            const isVideo = file.type.startsWith('video/');
+            const isImage = file.type.startsWith('image/') || isHeic;
+
+            // 1. Limite globale di 100MB per evitare crash del browser
+            const MAX_SIZE = 100 * 1024 * 1024; 
+            if (file.size > MAX_SIZE) {
+                alert("Il file è troppo grande (massimo 100MB). I video molto lunghi non possono essere caricati qui.");
+                photoInput.value = '';
+                return;
+            }
+
+            uploadUI.classList.add('hidden');
+            uploadStatus.classList.remove('hidden');
+            progressBar.style.width = '5%';
+
+            // 2. LOGICA VIDEO o RAW (Invio a Firebase Storage, Cartella 'videos', NON appaiono in bacheca)
+            if (isVideo || isRaw) {
+                statusText.innerText = isRaw ? "Salvataggio RAW in corso..." : "Caricamento video in corso...";
+                try {
+                    const fileName = `${Date.now()}_original_${file.name}`;
+                    const storageRef = ref(storage, `videos/${fileName}`);
+                    const uploadTask = uploadBytesResumable(storageRef, file);
+
+                    uploadTask.on('state_changed', 
+                        (snapshot) => {
+                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            progressBar.style.width = progress + '%';
+                        }, 
+                        (error) => {
+                            alert("Errore caricamento: " + error.code);
+                            resetUploadUI();
+                        }, 
+                        () => {
+                            statusText.innerText = "File salvato nell'album privato!";
+                            setTimeout(() => resetUploadUI(), 2000);
+                        }
+                    );
+                } catch (error) {
+                    console.error("Errore Upload Pesante:", error);
+                    resetUploadUI();
+                }
+                return; // Ferma il codice qui per video e raw.
+            }
+
+            // 3. LOGICA FOTOGRAFIE e HEIC (Bacheca + Drive)
+            if (isImage && !isRaw) {
+                
+                // Backup originale a Drive (in silenzio)
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = async () => {
+                    const base64 = reader.result.split(',')[1];
+                    try {
+                        fetch(APPS_SCRIPT_URL, {
+                            method: "POST", mode: "no-cors", 
+                            headers: { "Content-Type": "text/plain;charset=utf-8" },
+                            body: JSON.stringify({ base64: base64, type: file.type, name: file.name })
+                        });
+                    } catch (err) { console.error("Errore Drive:", err); }
+                };
+
+                let fileToUpload = file;
+
+                // Gestione formato HEIC (iPhone)
+                if (isHeic) {
+                    statusText.innerText = "Conversione formato Apple in corso...";
+                    try {
+                        const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.8 });
+                        const blobToUse = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+                        fileToUpload = new File([blobToUse], file.name.replace(/\.heic$/i, '.jpg'), { type: "image/jpeg" });
+                    } catch (err) {
+                        console.error("Errore conversione HEIC:", err);
+                        alert("Impossibile convertire la foto. Riprova o scegli un'altra immagine.");
+                        resetUploadUI();
+                        return;
+                    }
+                }
+
+                // Compressione per la bacheca Firebase
+                statusText.innerText = "Ottimizzazione in corso...";
+                const options = { maxSizeMB: 1, maxWidthOrHeight: 1920, useWebWorker: true };
+                try { 
+                    fileToUpload = await imageCompression(fileToUpload, options); 
+                } catch (e) { console.warn("Compressione fallita", e); }
+
+                statusText.innerText = "Pubblicazione sul Wall...";
+                const fileName = `${Date.now()}_wall.jpg`;
+                const storageRef = ref(storage, `live_wall/${fileName}`);
+                const uploadTask = uploadBytesResumable(storageRef, fileToUpload);
+
+                uploadTask.on('state_changed', 
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        progressBar.style.width = Math.max(progress, 15) + '%';
+                    }, 
+                    (error) => {
+                        alert("Errore bacheca: " + error.code);
+                        resetUploadUI();
+                    }, 
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                            addDoc(collection(db, "live_wall"), {
+                                url: downloadURL,
+                                timestamp: Date.now()
+                            });
+                            statusText.innerText = "Fatto!";
+                            setTimeout(() => resetUploadUI(), 1000);
+                        });
+                    }
+                );
+            }
+        };
+
+        function resetUploadUI() {
+            uploadStatus.classList.add('hidden');
+            uploadUI.classList.remove('hidden');
+            progressBar.style.width = '0%';
+            photoInput.value = '';
+            if(statusText) statusText.innerText = "Analisi file in corso...";
+        }
         // LOGICA DI CARICAMENTO DOPPIO
         photoInput.onchange = async (e) => {
             const file = e.target.files[0];
