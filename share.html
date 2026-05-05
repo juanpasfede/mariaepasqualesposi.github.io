@@ -146,6 +146,20 @@
         const liveGrid = document.getElementById('live-grid');
         const statusText = document.getElementById('status-text');
 
+        // FUNZIONE: Assegna un tag in base all'orario di scatto
+        function getAutoTag(file) {
+            const photoDate = new Date(file.lastModified);
+            const hour = photoDate.getHours();
+
+            if (hour >= 9 && hour < 16) { return "preparativi"; } 
+            else if (hour >= 16 && hour < 19) { return "cerimonia"; } 
+            else if (hour >= 19 && hour < 21) { return "aperitivo"; } 
+            else if (hour >= 21 || hour < 4) { return "festa"; } 
+            else { return "generale"; }
+        }
+
+        // LOGICA DI CARICAMENTO AVANZATA (Video, HEIC, RAW, Foto)
+
         // LOGICA DI CARICAMENTO AVANZATA (Video, HEIC, RAW, Foto)
         photoInput.onchange = async (e) => {
             const file = e.target.files[0];
@@ -157,14 +171,23 @@
             const isVideo = file.type.startsWith('video/');
             const isImage = file.type.startsWith('image/') || isHeic;
 
-            // 1. Limite globale di 100MB per evitare crash del browser
-            const MAX_SIZE = 100 * 1024 * 1024; 
-            if (file.size > MAX_SIZE) {
-                alert("Il file è troppo grande (massimo 100MB). I video molto lunghi non possono essere caricati qui.");
-                photoInput.value = '';
-                return;
+            // 1. Controllo Limiti di Peso Separati (Video max 30MB, Foto/RAW max 100MB)
+            if (isVideo) {
+                const MAX_VIDEO_SIZE = 30 * 1024 * 1024; // 30 Megabyte fissi
+                if (file.size > MAX_VIDEO_SIZE) {
+                    const actualSize = (file.size / (1024 * 1024)).toFixed(1);
+                    alert(`Questo video è di ${actualSize} MB. Il limite massimo è 30 MB. Prova a ritagliarlo o accorciarlo dal rullino del telefono prima di selezionarlo!`);
+                    photoInput.value = ''; 
+                    return; 
+                }
+            } else {
+                const MAX_IMAGE_SIZE = 100 * 1024 * 1024; // 100 Megabyte per foto
+                if (file.size > MAX_IMAGE_SIZE) {
+                    alert("Questa foto supera il limite estremo di 100 MB e non può essere elaborata.");
+                    photoInput.value = '';
+                    return;
+                }
             }
-
             uploadUI.classList.add('hidden');
             uploadStatus.classList.remove('hidden');
             progressBar.style.width = '5%';
@@ -255,10 +278,15 @@
                     }, 
                     () => {
                         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                            const autoCategory = getAutoTag(file); // Calcola il tag automatico
+                            
                             addDoc(collection(db, "live_wall"), {
                                 url: downloadURL,
-                                timestamp: Date.now()
+                                timestamp: Date.now(), // Quando è stata caricata sul sito
+                                originalTime: file.lastModified, // Quando è stata scattata davvero
+                                category: autoCategory // L'etichetta oraria calcolata
                             });
+                            
                             statusText.innerText = "Fatto!";
                             setTimeout(() => resetUploadUI(), 1000);
                         });
