@@ -147,25 +147,12 @@
         const liveGrid = document.getElementById('live-grid');
         const statusText = document.getElementById('status-text');
 
-        // FUNZIONE: Assegna un tag in base all'orario di scatto
-        function getAutoTag(file) {
-            const photoDate = new Date(file.lastModified);
-            const hour = photoDate.getHours();
-
-            if (hour >= 9 && hour < 16) { return "preparativi"; } 
-            else if (hour >= 16 && hour < 19) { return "cerimonia"; } 
-            else if (hour >= 19 && hour < 21) { return "aperitivo"; } 
-            else if (hour >= 21 || hour < 4) { return "festa"; } 
-            else { return "generale"; }
-        }
-        // Funzione per convertire coordinate EXIF in decimali (per mappe)
-        function convertEXIFToDecimal(number, ref) {
+function convertEXIFToDecimal(number, ref) {
             if (!number) return null;
             const decimal = number[0] + number[1] / 60 + number[2] / 3600;
             return (ref === "S" || ref === "W") ? decimal * -1 : decimal;
         }
 
-        // Funzione per estrarre Data, Posizione e Orientamento
         async function getExifMetadata(file) {
             return new Promise((resolve) => {
                 EXIF.getData(file, function() {
@@ -179,6 +166,16 @@
                     });
                 });
             });
+        }
+
+        function getAutoTag(file) {
+            const photoDate = new Date(file.lastModified);
+            const hour = photoDate.getHours();
+            if (hour >= 9 && hour < 16) return "preparativi";
+            else if (hour >= 16 && hour < 19) return "cerimonia";
+            else if (hour >= 19 && hour < 21) return "aperitivo";
+            else if (hour >= 21 || hour < 4) return "festa";
+            else return "generale";
         }
 
         // LOGICA DI CARICAMENTO AVANZATA (Video, HEIC, RAW, Foto)
@@ -298,7 +295,8 @@
                 const uploadTask = uploadBytesResumable(storageRef, fileToUpload);
 
                 uploadTask.on('state_changed', 
-                    (snapshot) => {
+                   snapshot.forEach((docSnap) => {
+                        const data = docSnap.data();
                         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                         progressBar.style.width = Math.max(progress, 15) + '%';
                     }, 
@@ -350,7 +348,7 @@
         onSnapshot(q, (snapshot) => {
             liveGrid.innerHTML = '';
             snapshot.forEach((doc) => {
-                const data = doc.data();
+                const data = docSnap.data();
                 const card = document.createElement('div');
                 card.className = "img-card animate__animated animate__fadeInUp p-1 bg-white cursor-pointer group relative";
                 
