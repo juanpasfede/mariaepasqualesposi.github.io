@@ -227,11 +227,11 @@ function convertEXIFToDecimal(number, ref) {
                     const storageRef = ref(storage, `videos/${fileName}`);
                     const uploadTask = uploadBytesResumable(storageRef, file);
 
-                    uploadTask.on('state_changed', 
-                        (snapshot) => {
-                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            progressBar.style.width = progress + '%';
-                        }, 
+            uploadTask.on('state_changed', 
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    progressBar.style.width = Math.max(progress, 15) + '%';
+                },
                         (error) => {
                             alert("Errore caricamento: " + error.code);
                             resetUploadUI();
@@ -347,7 +347,7 @@ function convertEXIFToDecimal(number, ref) {
         const q = query(collection(db, "live_wall"), orderBy("timestamp", "desc"));
         onSnapshot(q, (snapshot) => {
             liveGrid.innerHTML = '';
-            snapshot.forEach((doc) => {
+            snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
                 const card = document.createElement('div');
                 card.className = "img-card animate__animated animate__fadeInUp p-1 bg-white cursor-pointer group relative";
