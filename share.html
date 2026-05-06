@@ -294,46 +294,40 @@ function convertEXIFToDecimal(number, ref) {
                 const storageRef = ref(storage, `live_wall/${fileName}`);
                 const uploadTask = uploadBytesResumable(storageRef, fileToUpload);
 
-                uploadTask.on('state_changed', 
-                   snapshot.forEach((docSnap) => {
-                        const data = docSnap.data();
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        progressBar.style.width = Math.max(progress, 15) + '%';
-                    }, 
-                    (error) => {
-                        alert("Errore bacheca: " + error.code);
-                        resetUploadUI();
-                    }, 
-                    () => {
-                        // Nota l'aggiunta di 'async' qui sotto per permettere l'attesa dei dati EXIF
-                        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                            
-                            // Estrazione dati EXIF prima di salvare (Data, GPS, Orientamento)
-                            const exifData = await getExifMetadata(file);
-                            // Tag cronologico automatico come backup
-                            const autoCategory = getAutoTag(file); 
-                            
-                            // Prepariamo un ID che l'IA di Google possa riconoscere (es. 12345_wall_jpg)
-                            const docId = fileName.replace(/\./g, '_');
-                            
-                            // Usiamo setDoc invece di addDoc per forzare l'ID col nome del file
-                            await setDoc(doc(db, "live_wall", docId), {
-                                url: downloadURL,
-                                timestamp: Date.now(),
-                                exifDate: exifData.originalDate,
-                                location: exifData.location,
-                                orientation: exifData.orientation,
-                                category: autoCategory
-                                // Qui l'estensione Firebase scriverà il campo "labels" in automatico
-                            });
-                            
-                            statusText.innerText = "Fatto!";
-                            setTimeout(() => resetUploadUI(), 1000);
-                        });
-                    }
-                );
-            }
-        };
+         uploadTask.on('state_changed', 
+    (snapshot) => {
+        // Gestione corretta della barra di avanzamento
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progressBar.style.width = Math.max(progress, 15) + '%';
+    }, 
+    (error) => {
+        alert("Errore bacheca: " + error.code);
+        resetUploadUI();
+    }, 
+    async () => {
+        try {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            const exifData = await getExifMetadata(file);
+            const autoCategory = getAutoTag(file); 
+            const docId = fileName.replace(/\./g, '_');
+            
+            await setDoc(doc(db, "live_wall", docId), {
+                url: downloadURL,
+                timestamp: Date.now(),
+                exifDate: exifData.originalDate || null,
+                location: exifData.location || null,
+                orientation: exifData.orientation || 1,
+                category: autoCategory
+            });
+            
+            statusText.innerText = "Fatto!";
+            setTimeout(() => resetUploadUI(), 1000);
+        } catch (err) {
+            console.error("Errore salvataggio dati:", err);
+            resetUploadUI();
+        }
+    }
+);       
 
         function resetUploadUI() {
             uploadStatus.classList.add('hidden');
